@@ -1,0 +1,15 @@
+.navbar {
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    background-color: lightblue;
+    border: 1px solid black;
+    margin: -8px;
+}
+
+button {
+    background-color: lightseagreen;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 8px;
+}

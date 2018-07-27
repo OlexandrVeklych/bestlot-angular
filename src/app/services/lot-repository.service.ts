@@ -2,7 +2,12 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { LotModel } from "../models/lot-model";
 import { AccountManagementService } from './account-management.service';
+import { Injectable } from '@angular/core';
+import { LotRequestModel } from '../models/lot-request-model';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class LotRepositoryService{
     readonly baseUrl = 'http://localhost:63959/api/'
 
@@ -23,9 +28,9 @@ export class LotRepositoryService{
         return this.http.get<LotModel>(currentUrl);
     }
 
-    postLot(lot: LotModel): Observable<LotModel>{
+    postLot(lot: LotRequestModel): Observable<LotRequestModel>{
         const currentUrl = `${this.baseUrl}lots`;
-        return this.http.post<LotModel>(currentUrl, lot, {
+        return this.http.post<LotRequestModel>(currentUrl, lot, {
             headers: this.accountManager.getHeaders()
         });
     }

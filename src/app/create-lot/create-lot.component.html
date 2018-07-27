@@ -1,0 +1,11 @@
+<p>
+  create-lot works!
+</p>
+
+
+<input [(ngModel)] = "lot.Name" placeholder="Name" type="text"><br><br>
+<input [(ngModel)] = "lot.Description" placeholder="Description" type="text"><br><br>
+<input [(ngModel)] = "lot.Price" placeholder="Start price" type="number"><br><br>
+<input [(ngModel)] = "lot.MinStep" placeholder="Minimum bet step" type="number"><br><br>
+<input [(ngModel)] = "lot.SellDate" placeholder="Sell date" type="datetime"><br><br>
+<input type ="button"(click) = "submit()" value="Add this lot">

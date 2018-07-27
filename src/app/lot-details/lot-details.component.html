@@ -1,0 +1,26 @@
+<p>
+  lot-details works!
+</p>
+
+<div *ngIf="lot">
+
+    <h2>{{lot.Name | uppercase}} Details</h2>
+    <div><span>id: </span>{{lot.Id}}</div>
+    <h3>
+      Description: {{lot.Description}}
+      Last price: {{lot.Price}}
+      Last price by: {{lot.BuyerUserId}}
+      Seller user: {{lot.SellerUser.Name}}
+      Start date: {{lot.StartDate}}
+      Sell date: {{lot.SellDate}}
+      Step for bet: {{lot.MinStep}}
+    </h3>
+    <h2>Comments</h2>
+    <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark"><br><br>
+    <input [(ngModel)]="comment.Message" type="text" placeholder="Message"><br><br>
+    <button (click) = "addComment()">Add comment</button>
+    <div *ngFor = "let comment of lot.LotComments">
+      Message: {{comment.Message}}
+      By: {{comment.User.Name}} {{comment.User.Surname}}
+    </div>
+</div>

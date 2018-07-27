@@ -1,0 +1,27 @@
+<p>
+  lots-list works!
+</p>
+
+<input type="number" [(ngModel)]="page" placeholder="Page">
+<input
+  type="button"
+  value="Load Lots"
+  (click)="onLoadClick()"
+  [disabled]="isLoading"
+>
+
+<div *ngIf="lots" class = "horizontal-list">
+  <div class="vertical-list">
+    <div *ngIf="isLoading">Loading...</div>
+    <div *ngFor="let lot of lots" class="lot-container" (click) ="onSelect(lot)">
+      <img [src]="lot.LotPhotos[0]">
+      <h2>
+        <div>{{lot.Name}}</div>
+        <div>{{lot.Price}}</div>
+      </h2>
+    </div>
+  </div>
+  <div>
+    <app-lot-details [lot] = "selectedLot"></app-lot-details>
+  </div>
+</div>

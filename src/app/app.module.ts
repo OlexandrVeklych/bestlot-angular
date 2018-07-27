@@ -1,22 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { LotComponent } from './lot/lot.component';
-import { LotCommentComponent } from './lot-comment/lot-comment.component';
-import { UserComponent } from './user/user.component';
-import { LotPhotoComponent } from './lot-photo/lot-photo.component';
+import { LotsListComponent } from './lots-list/lots-list.component';
+import { LotDetailsComponent } from './lot-details/lot-details.component';
+import { CreateLotComponent } from './create-lot/create-lot.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ServicesModule } from './services/services.module';
+import { RegisterUserComponent } from './register-user/register-user.component';
+import { LoginUserComponent } from './login-user/login-user.component';
+import { UsersListComponent } from './users-list/users-list.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LotComponent,
-    LotCommentComponent,
-    UserComponent,
-    LotPhotoComponent
+    LotsListComponent,
+    LotDetailsComponent,
+    CreateLotComponent,
+    RegisterUserComponent,
+    LoginUserComponent,
+    UsersListComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    ServicesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

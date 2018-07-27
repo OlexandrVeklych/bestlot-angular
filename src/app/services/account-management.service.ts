@@ -2,7 +2,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { UserRegistrationModel } from "../models/user-registration-model";
 import { UserAccountInfoModel } from "../models/user-account-info-model";
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AccountManagementService{
     readonly baseUrl = 'http://localhost:63959/api/'
 

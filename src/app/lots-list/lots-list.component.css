@@ -1,0 +1,20 @@
+.lot-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.vertical-list{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 30%;
+}
+
+.horizontal-list{
+    display: flex;
+}
+
+.horizontal-list :nth-child(2){
+    flex-grow: 3;
+}
