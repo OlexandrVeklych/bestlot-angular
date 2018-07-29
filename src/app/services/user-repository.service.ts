@@ -8,14 +8,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserRepositoryService{
-    readonly baseUrl = 'http://localhost:63959/api/'
+    readonly baseUrl = '/api/'
 
     constructor(private http: HttpClient, private accountManager: AccountManagementService) {}
 
     getUsers(page: number, amount: number): Observable<UserAccountInfoModel[]>  {
         const currentUrl = `${this.baseUrl}users/?page=${page}&amount=${amount}`;
         return this.http.get<UserAccountInfoModel[]>(currentUrl, {
-            headers: this.accountManager.getHeaders()
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
         });
     }
 

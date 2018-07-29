@@ -7,18 +7,18 @@
     <h2>{{lot.Name | uppercase}} Details</h2>
     <div><span>id: </span>{{lot.Id}}</div>
     <h3>
-      Description: {{lot.Description}}
-      Last price: {{lot.Price}}
-      Last price by: {{lot.BuyerUserId}}
-      Seller user: {{lot.SellerUser.Name}}
-      Start date: {{lot.StartDate}}
-      Sell date: {{lot.SellDate}}
-      Step for bet: {{lot.MinStep}}
+      Description: {{lot.Description}}<br><br>
+      Last price: {{lot.Price}}<br><br>
+      Last price by: {{lot.BuyerUserId}}<br><br>
+      Seller user: {{lot.SellerUser.Name}}<br><br>
+      Start date: {{lot.StartDate}}<br><br>
+      Sell date: {{lot.SellDate}}<br><br>
+      Step for bet: {{lot.MinStep}}<br><br>
     </h3>
     <h2>Comments</h2>
     <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark"><br><br>
     <input [(ngModel)]="comment.Message" type="text" placeholder="Message"><br><br>
-    <button (click) = "addComment()">Add comment</button>
+    <input type="button" (click) = "addComment()"value = "Add comment">
     <div *ngFor = "let comment of lot.LotComments">
       Message: {{comment.Message}}
       By: {{comment.User.Name}} {{comment.User.Surname}}

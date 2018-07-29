@@ -1,7 +1,9 @@
 export interface LotRequestModel {
     Name: string;
     Description: string;
+    Category: string;
     Price: number;
     MinStep: number;
-    SellDate: string;
+    SellDate: Date;
+    Photo: FormData;
   }

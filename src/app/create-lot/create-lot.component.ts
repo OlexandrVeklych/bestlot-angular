@@ -14,9 +14,11 @@ export class CreateLotComponent implements OnInit {
   lot: LotRequestModel = {
     Name: "",
     Description: "",
-    SellDate: "",
+    Category: "",
+    SellDate: null,
     MinStep: 0,
-    Price: 0
+    Price: 0,
+    Photo: null
   };
 
   ngOnInit() {
@@ -25,5 +27,9 @@ export class CreateLotComponent implements OnInit {
   submit(){
     this.service.postLot(this.lot).subscribe();
     alert('request sent');
+  }
+
+  onFileChanged(event){
+    this.lot.Photo = event.target.files[0];
   }
 }

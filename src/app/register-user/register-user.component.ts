@@ -11,14 +11,20 @@ export class RegisterUserComponent implements OnInit {
 
   constructor(private service: AccountManagementService) { }
 
-  user: UserRegistrationModel = null;
-
+  user: UserRegistrationModel = {
+    Email: '',
+    Password: '',
+    ConfirmPassword: '',
+    Name: '',
+    Surname: '',
+    TelephoneNumber: '',
+    Role: '',
+  }
   ngOnInit() {
   }
 
   register(){
-    this.service.register(this.user).subscribe();
+    this.service.register(this.user);
     alert("request sent");
   }
-
 }

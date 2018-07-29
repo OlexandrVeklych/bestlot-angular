@@ -9,20 +9,26 @@ import { LotCommentRequestModel } from "../models/lot-comment-request-model";
   providedIn: 'root',
 })
 export class LotCommentRepositoryService{
-    readonly baseUrl = 'http://localhost:63959/api/'
+    readonly baseUrl = '/api/'
 
     constructor(private http: HttpClient, private accountManager: AccountManagementService) {}
 
     addComment(lotId: number, comment: LotCommentRequestModel) : Observable<LotCommentModel>{
         const currentUrl = `${this.baseUrl}lots/${lotId}/comments`;
         return this.http.post<LotCommentModel>(currentUrl, comment, {
-            headers: this.accountManager.getHeaders()
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
         });
     }
 
     getLotComments(lotId: number, page: number, amount: number): Observable<LotCommentModel[]>{
         const currentUrl = `${this.baseUrl}lots/${lotId}/comments/?page=${page}&amount=${amount}`;
-        return this.http.get<LotCommentModel[]>(currentUrl);
+        return this.http.get<LotCommentModel[]>(currentUrl, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
     }
 
     getUserLotComments(email: string, page: number, amount: number) : Observable<LotCommentModel[]>{

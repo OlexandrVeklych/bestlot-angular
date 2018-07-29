@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AccountManagementService{
-    readonly baseUrl = 'http://localhost:63959/api/'
+    readonly baseUrl = '/api/'
 
     constructor(private http: HttpClient) {}
 
@@ -18,20 +18,22 @@ export class AccountManagementService{
         return headers;
     }
 
-    register(user: UserRegistrationModel) : Observable<UserAccountInfoModel>{
+    register(user: UserRegistrationModel){
         const currentUrl = `${this.baseUrl}account/register`;
-        return this.http.post<UserAccountInfoModel>(currentUrl, user);
+        this.http.post(currentUrl, user).subscribe();
     }
 
     login(email: string, password: string){
-        var loginData = {
-            grant_type: "password",
-            username: email,
-            password: password,
-        }
-        const currentUrl = `http://localhost:63959/token`;
+        var loginData = `grant_type=password&username=${email}&password=${password}`
 
-        this.http.post<any>(currentUrl, loginData).subscribe(response => {
+        const currentUrl = `${this.baseUrl}token`;
+
+        this.http.post<any>(currentUrl, loginData, {
+            headers:{
+                "Accept": "*/*",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            }
+        }).subscribe(response => {
             sessionStorage.setItem("tokenKey", response.access_token)
         })
     }

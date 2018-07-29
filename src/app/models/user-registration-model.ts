@@ -5,4 +5,5 @@ export interface UserRegistrationModel{
     Name: string;
     Surname: string;
     TelephoneNumber: string;
+    Role: string;
 }

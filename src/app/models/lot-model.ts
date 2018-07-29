@@ -6,6 +6,7 @@ export interface LotModel {
   Id: number;
   Name: string;
   Description: string;
+  Category: string;
   SellerUserId: string;
   SellerUser: UserAccountInfoModel;
   BuyerUserId: string;

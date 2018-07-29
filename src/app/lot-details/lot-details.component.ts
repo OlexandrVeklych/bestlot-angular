@@ -12,10 +12,27 @@ export class LotDetailsComponent implements OnInit {
 
   constructor(private service: LotCommentRepositoryService) { }
 
-  comment: LotCommentRequestModel;
+  comment: LotCommentRequestModel = {
+    Message: null,
+    Rating: null,
+  }
 
 
- @Input() lot: LotModel;
+  @Input() lot: LotModel = {
+    Id: 0,
+    Name: null,
+    Description: null,
+    Category: null,
+    SellerUserId: null,
+    SellerUser: null,
+    BuyerUserId: null,
+    Price: 0,
+    MinStep: 0,
+    StartDate: null,
+    SellDate: null,
+    LotPhotos: null,
+    LotComments: null
+  }
 
   ngOnInit() {
   }
@@ -23,6 +40,6 @@ export class LotDetailsComponent implements OnInit {
   addComment(){
     if (!this.comment.Rating || ! this.comment.Rating)
       alert("Enter mark and comment");
-    this.service.addComment(this.lot.Id, this.comment);
+    this.service.addComment(this.lot.Id, this.comment).subscribe();
   }
 }

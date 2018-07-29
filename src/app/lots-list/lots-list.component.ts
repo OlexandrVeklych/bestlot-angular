@@ -12,13 +12,31 @@ export class LotsListComponent implements OnInit {
   constructor(private service: LotRepositoryService) { }
 
   page = 1;
-  lots: LotModel[];
+  lots: LotModel[] = [
+    {
+       Id: 1,
+       Name: "",
+      Description: "",
+      Category: "",
+      StartDate: "",
+      SellDate: "",
+      SellerUser: null,
+      SellerUserId: "",
+      BuyerUserId: "",
+      MinStep: 0,
+      Price: 0,
+      LotPhotos: null,
+      LotComments: null
+    }
+  ];
 
   selectedLot: LotModel;
 
   isLoading = false;
 
   onLoadClick() {
+    this.lots.length = 0;
+    this.selectedLot = null;
     this.isLoading = true;
     this.service.getLots(this.page, 10).subscribe(p => {
       this.isLoading = false;

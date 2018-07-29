@@ -9,7 +9,7 @@ import { LotRequestModel } from '../models/lot-request-model';
   providedIn: 'root',
 })
 export class LotRepositoryService{
-    readonly baseUrl = 'http://localhost:63959/api/'
+    readonly baseUrl = '/api/'
 
     constructor(private http: HttpClient, private accountManager: AccountManagementService) {}
 
@@ -19,7 +19,7 @@ export class LotRepositoryService{
     }
 
     getUserLots(email: string, page: number, amount: number, name: string = null, category: string = null, minPrice: number = 0, maxPrice: number = 0): Observable<LotModel[]>  {
-        const currentUrl = `${this.baseUrl}users/${email}/lots/?page=${page}&amount=${amount}&name=${name}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        const currentUrl = `${this.baseUrl}users/${email}/lots/?page=${page}`;//&amount=${amount}&name=${name}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
         return this.http.get<LotModel[]>(currentUrl);
     }
 
@@ -31,7 +31,9 @@ export class LotRepositoryService{
     postLot(lot: LotRequestModel): Observable<LotRequestModel>{
         const currentUrl = `${this.baseUrl}lots`;
         return this.http.post<LotRequestModel>(currentUrl, lot, {
-            headers: this.accountManager.getHeaders()
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
         });
     }
 
