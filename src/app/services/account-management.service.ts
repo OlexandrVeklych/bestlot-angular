@@ -12,12 +12,6 @@ export class AccountManagementService{
 
     constructor(private http: HttpClient) {}
 
-    getHeaders(){
-        var headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + sessionStorage.getItem("tokenKey"));
-        return headers;
-    }
-
     register(user: UserRegistrationModel){
         const currentUrl = `${this.baseUrl}account/register`;
         this.http.post(currentUrl, user).subscribe();
@@ -28,18 +22,18 @@ export class AccountManagementService{
 
         const currentUrl = `${this.baseUrl}token`;
 
-        this.http.post<any>(currentUrl, loginData, {
-            headers:{
-                "Accept": "*/*",
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-            }
-        }).subscribe(response => {
+        this.http.post<any>(currentUrl, loginData).subscribe(response => {
             sessionStorage.setItem("tokenKey", response.access_token)
         })
     }
 
     logout(){
         const currentUrl = `${this.baseUrl}account/logout`;
-        this.http.post<any>(currentUrl, null);
+        this.http.post<any>(currentUrl, null, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
+        sessionStorage.removeItem("tokenKey");
     }
 }

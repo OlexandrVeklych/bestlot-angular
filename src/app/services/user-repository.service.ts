@@ -21,9 +21,18 @@ export class UserRepositoryService{
         });
     }
 
-    getUser(email: string): Observable<UserAccountInfoModel>  {
+    getUser(email: string): Observable<UserAccountInfoModel>{
         const currentUrl = `${this.baseUrl}users/${email}`;
         return this.http.get<UserAccountInfoModel>(currentUrl);
+    }
+
+    getCurrentUser(): Observable<UserAccountInfoModel>  {
+        const currentUrl = `${this.baseUrl}currentuser`;
+        return this.http.get<UserAccountInfoModel>(currentUrl, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
     }
 
     getSellerUser(lotId: number): Observable<UserAccountInfoModel> {
@@ -39,7 +48,9 @@ export class UserRepositoryService{
     putUser(email: string, user: UserAccountInfoModel) : Observable<UserAccountInfoModel> {
         const currentUrl = `${this.baseUrl}users/${email}`;
         return this.http.put<UserAccountInfoModel>(currentUrl, user, {
-            headers: this.accountManager.getHeaders()
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
         });
     }
 }

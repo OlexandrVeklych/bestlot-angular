@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LotRepositoryService } from '../services/lot-repository.service';
 import { LotModel } from '../models/lot-model';
+import { DomSanitizer} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-lots-list',
@@ -9,7 +11,7 @@ import { LotModel } from '../models/lot-model';
 })
 export class LotsListComponent implements OnInit {
 
-  constructor(private service: LotRepositoryService) { }
+  constructor(private service: LotRepositoryService, private DomSanitizerService: DomSanitizer) { }
 
   page = 1;
   lots: LotModel[] = [
@@ -25,7 +27,13 @@ export class LotsListComponent implements OnInit {
       BuyerUserId: "",
       MinStep: 0,
       Price: 0,
-      LotPhotos: null,
+      LotPhotos: [{
+        Id: 0,
+        Path: "",
+        Description: null,
+        LotId: 0,
+        Lot: null
+      }],
       LotComments: null
     }
   ];
@@ -45,11 +53,16 @@ export class LotsListComponent implements OnInit {
     });
   }
 
+  getPhoto(lotNumber: number, photoNumber: number){
+    return this.DomSanitizerService.bypassSecurityTrustUrl(this.lots[lotNumber].LotPhotos[photoNumber].Path);
+  }
+
   onSelect(lot: LotModel){
     this.selectedLot = lot;
   }
 
   ngOnInit() {
+    this.DomSanitizerService.bypassSecurityTrustUrl
   }
 
 }

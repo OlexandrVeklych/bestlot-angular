@@ -1,3 +1,5 @@
+import { LotPhotoRequestModel } from "./lot-photo-request-model";
+
 export interface LotRequestModel {
     Name: string;
     Description: string;
@@ -5,5 +7,5 @@ export interface LotRequestModel {
     Price: number;
     MinStep: number;
     SellDate: Date;
-    Photo: FormData;
+    LotPhotos: LotPhotoRequestModel[];
   }

@@ -1,0 +1,13 @@
+<p>
+  user-info works!
+</p>
+
+<h3>Email: {{currentUser.Email}} </h3>
+<input [(ngModel)] = currentUser.Name type="text">
+<input [(ngModel)] = currentUser.Surname type="text">
+<input [(ngModel)] = currentUser.TelephoneNumber type="text">
+<input type="button" (click) = "putUser()">
+<div *ngFor = "let lot of currentUser.Lots">
+  <app-lot-details [lot] = "lot"></app-lot-details>
+  <input type="button" (click) = "deleteLot(lot.Id)" value="Delete this lot">
+</div>

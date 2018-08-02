@@ -9,5 +9,12 @@
 <input [(ngModel)] = "lot.Price" placeholder="Start price" type="number"><br><br>
 <input [(ngModel)] = "lot.MinStep" placeholder="Minimum bet step" type="number"><br><br>
 <input [(ngModel)] = "lot.SellDate" placeholder="Sell date" type="datetime-local"><br><br>
+<div *ngFor = "let i of getPhotosCount(); let j = index">
+  <span *ngIf = "lot.LotPhotos[j].Path">
+    <img  src = {{lot.LotPhotos[j].Path}}>
+    <input type="button" (click) = "removePhoto(j)" value="Remove">
+  </span>
+  <input type="file"(change)="onFileChanged($event, j)" multiple = "false" accept="image/*">
+  <input [(ngModel)] = "lot.LotPhotos[j].Description" placeholder="Photo description" type="text"><br><br>
+</div>
 <input type ="button"(click) = "submit()" value="Add this lot"><br><br>
-<input type="file"(change)="onFileChanged($event)">

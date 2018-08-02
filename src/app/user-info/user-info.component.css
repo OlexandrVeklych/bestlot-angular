@@ -1,0 +1,13 @@
+.vertical-list{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 30%;
+}
+
+span {
+    display: inline-block;
+}
+img {
+    width: 50%;
+}
