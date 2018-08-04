@@ -5,19 +5,19 @@ import { UserAccountInfoModel } from "../models/user-account-info-model";
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class AccountManagementService{
+export class AccountManagementService {
     readonly baseUrl = '/api/'
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-    register(user: UserRegistrationModel){
+    register(user: UserRegistrationModel) {
         const currentUrl = `${this.baseUrl}account/register`;
         this.http.post(currentUrl, user).subscribe();
     }
 
-    login(email: string, password: string){
+    login(email: string, password: string) {
         var loginData = `grant_type=password&username=${email}&password=${password}`
 
         const currentUrl = `${this.baseUrl}token`;
@@ -27,7 +27,7 @@ export class AccountManagementService{
         })
     }
 
-    logout(){
+    logout() {
         const currentUrl = `${this.baseUrl}account/logout`;
         this.http.post<any>(currentUrl, null, {
             headers: {

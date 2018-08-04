@@ -5,14 +5,14 @@ import { AccountManagementService } from "./account-management.service";
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class UserRepositoryService{
+export class UserRepositoryService {
     readonly baseUrl = '/api/'
 
-    constructor(private http: HttpClient, private accountManager: AccountManagementService) {}
+    constructor(private http: HttpClient, private accountManager: AccountManagementService) { }
 
-    getUsers(page: number, amount: number): Observable<UserAccountInfoModel[]>  {
+    getUsers(page: number, amount: number): Observable<UserAccountInfoModel[]> {
         const currentUrl = `${this.baseUrl}users/?page=${page}&amount=${amount}`;
         return this.http.get<UserAccountInfoModel[]>(currentUrl, {
             headers: {
@@ -21,12 +21,12 @@ export class UserRepositoryService{
         });
     }
 
-    getUser(email: string): Observable<UserAccountInfoModel>{
+    getUser(email: string): Observable<UserAccountInfoModel> {
         const currentUrl = `${this.baseUrl}users/${email}`;
         return this.http.get<UserAccountInfoModel>(currentUrl);
     }
 
-    getCurrentUser(): Observable<UserAccountInfoModel>  {
+    getCurrentUser(): Observable<UserAccountInfoModel> {
         const currentUrl = `${this.baseUrl}currentuser`;
         return this.http.get<UserAccountInfoModel>(currentUrl, {
             headers: {
@@ -45,7 +45,7 @@ export class UserRepositoryService{
         return this.http.get<UserAccountInfoModel>(currentUrl);
     }
 
-    putUser(email: string, user: UserAccountInfoModel) : Observable<UserAccountInfoModel> {
+    putUser(email: string, user: UserAccountInfoModel): Observable<UserAccountInfoModel> {
         const currentUrl = `${this.baseUrl}users/${email}`;
         return this.http.put<UserAccountInfoModel>(currentUrl, user, {
             headers: {

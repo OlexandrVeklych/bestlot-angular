@@ -18,9 +18,13 @@ export class AppComponent implements OnInit {
   currentUser: UserAccountInfoModel;
 
   ngOnInit() {
-    this.userService.getCurrentUser().subscribe(response => {
-      this.currentUser = response;
-    })
+    if (sessionStorage.getItem("tokenKey"))
+      this.userService.getCurrentUser().subscribe(response => {
+        this.currentUser = response;
+      },
+      () => {
+        sessionStorage.removeItem("tokenKey");
+      })
   }
 
   Id: number;

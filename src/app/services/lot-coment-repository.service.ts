@@ -6,14 +6,14 @@ import { Injectable } from '@angular/core';
 import { LotCommentRequestModel } from "../models/lot-comment-request-model";
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class LotCommentRepositoryService{
+export class LotCommentRepositoryService {
     readonly baseUrl = '/api/'
 
-    constructor(private http: HttpClient, private accountManager: AccountManagementService) {}
+    constructor(private http: HttpClient, private accountManager: AccountManagementService) { }
 
-    addComment(lotId: number, comment: LotCommentRequestModel) : Observable<LotCommentModel>{
+    addComment(lotId: number, comment: LotCommentRequestModel): Observable<LotCommentModel> {
         const currentUrl = `${this.baseUrl}lots/${lotId}/comments`;
         return this.http.post<LotCommentModel>(currentUrl, comment, {
             headers: {
@@ -22,7 +22,7 @@ export class LotCommentRepositoryService{
         });
     }
 
-    getLotComments(lotId: number, page: number, amount: number): Observable<LotCommentModel[]>{
+    getLotComments(lotId: number, page: number, amount: number): Observable<LotCommentModel[]> {
         const currentUrl = `${this.baseUrl}lots/${lotId}/comments/?page=${page}&amount=${amount}`;
         return this.http.get<LotCommentModel[]>(currentUrl, {
             headers: {
@@ -31,12 +31,12 @@ export class LotCommentRepositoryService{
         });
     }
 
-    getUserLotComments(email: string, page: number, amount: number) : Observable<LotCommentModel[]>{
+    getUserLotComments(email: string, page: number, amount: number): Observable<LotCommentModel[]> {
         const currentUrl = `${this.baseUrl}users/${email}/comments/?page=${page}&amount=${amount}`;
         return this.http.get<LotCommentModel[]>(currentUrl);
     }
 
-    getLotCommentByNumber(lotId: number, commentNumber: number) : Observable<LotCommentModel>{
+    getLotCommentByNumber(lotId: number, commentNumber: number): Observable<LotCommentModel> {
         const currentUrl = `${this.baseUrl}lots/${lotId}/comments/${commentNumber}`;
         return this.http.get<LotCommentModel>(currentUrl);
     }

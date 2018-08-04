@@ -6,14 +6,14 @@
 <input
   type="button"
   value="Load Lots"
-  (click)="onLoadClick()"
+  (click)="onLoadLotsClick()"
 >
 
 <div *ngIf="lots" class = "horizontal-list">
   <div class="vertical-list">
     <div *ngIf="isLoading">Loading...</div>
     <div *ngFor="let lot of lots; let i = index" class="lot-container" (click) ="onSelect(lot)">
-      <img *ngIf = "lot.LotPhotos[0]" [src]="getPhoto(i,0)">
+      <img *ngIf = "lot.LotPhotos && lot.LotPhotos.length > 0" [src]="getPhoto(i,0)">
       <h2>
         <div>{{lot.Name}}</div>
         <div>{{lot.Price}}</div>

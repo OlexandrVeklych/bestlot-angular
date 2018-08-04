@@ -16,4 +16,4 @@ import { UserRepositoryService } from './user-repository.service';
     UserRepositoryService
   ]
 })
-export class ServicesModule {}
+export class ServicesModule { }

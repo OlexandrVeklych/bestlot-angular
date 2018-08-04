@@ -19,7 +19,7 @@ export class LotRepositoryService {
     }
 
     getUserLots(email: string, page: number, amount: number, name: string = null, category: string = null, minPrice: number = 0, maxPrice: number = 0): Observable<LotModel[]> {
-        const currentUrl = `${this.baseUrl}users/${email}/lots/?page=${page}`;//&amount=${amount}&name=${name}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        const currentUrl = `${this.baseUrl}users/${email}/lots/?page=${page}&amount=${amount}`;//&name=${name}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
         return this.http.get<LotModel[]>(currentUrl);
     }
 

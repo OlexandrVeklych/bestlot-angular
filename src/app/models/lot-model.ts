@@ -10,6 +10,7 @@ export interface LotModel {
   SellerUserId: string;
   SellerUser: UserAccountInfoModel;
   BuyerUserId: string;
+  BuyerUser: UserAccountInfoModel;
   Price: number;
   MinStep: number;
   StartDate: string;

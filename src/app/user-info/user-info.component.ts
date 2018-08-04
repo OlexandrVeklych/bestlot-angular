@@ -27,4 +27,10 @@ export class UserInfoComponent implements OnInit {
     });
     alert("Delete request sent");
   }
+
+  loadLots(){
+    this.lotService.getUserLots(this.currentUser.Email, 1, 10).subscribe(response => {
+      this.currentUser.Lots = response;
+    })
+  }
 }

@@ -1,27 +1,46 @@
 <p>
   lot-details works!
 </p>
+<input *ngIf="!show && lot" type="button" (click)="onShowClick()" value="Load details">
 
-<div *ngIf="lot">
-
-    <h2>{{lot.Name | uppercase}} Details</h2>
-    <div><span>id: </span>{{lot.Id}}</div>
-    <h3>
-      Description: {{lot.Description}}<br><br>
-      Category: {{lot.Category}}<br><br>
-      Last price: {{lot.Price}}<br><br>
-      Last price by: {{lot.BuyerUserId}}<br><br>
-      Seller user: {{lot.SellerUser.Name}}<br><br>
-      Start date: {{lot.StartDate}}<br><br>
-      Sell date: {{lot.SellDate}}<br><br>
-      Step for bet: {{lot.MinStep}}<br><br>
-    </h3>
-    <h2>Comments</h2>
-    <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark"><br><br>
-    <input [(ngModel)]="comment.Message" type="text" placeholder="Message"><br><br>
-    <input type="button" (click) = "addComment()"value = "Add comment">
-    <div *ngFor = "let comment of lot.LotComments">
-      Message: {{comment.Message}}
-      By: {{comment.User.Name}} {{comment.User.Surname}}
-    </div>
+<div *ngIf="show">
+  <h2>{{lot.Name | uppercase}} Details</h2>
+  <div>
+    <span>id: </span>{{lot.Id}}</div>
+  <h3>
+    Description: {{lot.Description}}
+    <br>
+    <br> Category: {{lot.Category}}
+    <br>
+    <br> Last price: {{lot.Price}}
+    <br>
+    <br> Last price by: {{lot.BuyerUserId}}
+    <br>
+    <br> Seller user: {{lot.SellerUser.Name}}
+    <br>
+    <br> Start date: {{lot.StartDate}}
+    <br>
+    <br> Sell date: {{lot.SellDate}}
+    <br>
+    <br> Step for bet: {{lot.MinStep}}
+    <br>
+    <br>
+  </h3>
+  <h2>Comments</h2>
+  <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark">
+  <br>
+  <br>
+  <input [(ngModel)]="comment.Message" type="text" placeholder="Message">
+  <br>
+  <br>
+  <input type="button" (click)="addComment()" value="Add comment">
+  <div *ngFor="let photo of lot.LotPhotos">
+    <img [src]="photo.Path">
+    <br> Description: {{photo.Description}}
+    <br>
+  </div>
+  <div *ngFor="let comment of lot.LotComments">
+    Message: {{comment.Message}} By: {{comment.User.Name}} {{comment.User.Surname}}
+  </div>
+  <input *ngIf="commentPage != -1" type="button" (click)="loadComments()" value="Load more comments">
 </div>

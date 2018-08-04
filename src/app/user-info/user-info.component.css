@@ -5,6 +5,12 @@
     width: 30%;
 }
 
+.horizontal-list{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 span {
     display: inline-block;
 }

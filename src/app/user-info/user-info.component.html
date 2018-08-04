@@ -3,11 +3,17 @@
 </p>
 
 <h3>Email: {{currentUser.Email}} </h3>
-<input [(ngModel)] = currentUser.Name type="text">
-<input [(ngModel)] = currentUser.Surname type="text">
-<input [(ngModel)] = currentUser.TelephoneNumber type="text">
-<input type="button" (click) = "putUser()">
-<div *ngFor = "let lot of currentUser.Lots">
-  <app-lot-details [lot] = "lot"></app-lot-details>
+<input [(ngModel)] = currentUser.Name type="text"><br><br>
+<input [(ngModel)] = currentUser.Surname type="text"><br><br>
+<input [(ngModel)] = currentUser.TelephoneNumber type="text"><br><br>
+<input type="button" (click) = "loadLots()" value="Load my lots"><br><br>
+<input type="button" (click) = "putUser()" value="Confirm changes"><br><br>
+<div class="vertical-list" *ngFor = "let lot of currentUser.Lots">
+  <h3>
+    {{lot.Name}}
+  </h3>
+  <div class="horizontal-list">
+      <app-lot-details [lot] = "lot"></app-lot-details><br>
+  </div>
   <input type="button" (click) = "deleteLot(lot.Id)" value="Delete this lot">
 </div>
