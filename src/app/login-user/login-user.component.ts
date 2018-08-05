@@ -18,8 +18,16 @@ export class LoginUserComponent implements OnInit {
   }
 
 
-  login(){
-    this.service.login(this.email, this.password);
-    alert('request sent');
+  login() {
+    this.service.login(this.email, this.password).subscribe(response => {
+      sessionStorage.setItem("tokenKey", response.access_token)
+    },
+      () => {
+        alert("Wrong password")
+      },
+      () => {
+        alert("Welcome");
+        location.reload();
+      });
   }
 }

@@ -2,26 +2,32 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    justify-content: flex-start;
 }
 
 .vertical-list{
+    width: 25%;
+    min-width: 300px;
+    flex-grow: 0;
     display: flex;
     flex-direction: column;
-    height: auto;
-    width: 30%;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .horizontal-list{
     display: flex;
+    min-width: 300px;
 }
 
-.horizontal-list :nth-child(2){
-    flex-grow: 3;
+.details{
+    flex-grow: 1;
 }
 
 span {
     display: inline-block;
 }
 img {
-    width: 50%;
+    width: 100%;
 }
+

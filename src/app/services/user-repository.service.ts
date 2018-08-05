@@ -46,7 +46,7 @@ export class UserRepositoryService {
     }
 
     putUser(email: string, user: UserAccountInfoModel): Observable<UserAccountInfoModel> {
-        const currentUrl = `${this.baseUrl}users/${email}`;
+        const currentUrl = `${this.baseUrl}users/?email=${email}`;
         return this.http.put<UserAccountInfoModel>(currentUrl, user, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")

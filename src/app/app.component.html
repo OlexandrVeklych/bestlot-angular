@@ -1,31 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="navbar">
-  <input type = "button" (click) = "showCreateLot()"value = "AddLot">
+  <input type="button" (click)="showCreateLot()" value="AddLot">
   <div>
-      <input [(ngModel)] = "searchCategory"type = "text" placeholder="Request">
-      <input type = "button" (click) = "showSearch()" value="Search">
+    <input [(ngModel)]="searchCategory" type="text" placeholder="Request">
+    <input type="button" (click)="showSearch()" value="Search">
   </div>
   <div>
-      <input [(ngModel)] = "Id" type="number"placeholder="Id">
-      <input type = "button"(click) = "showOneLot()" value="GetById">
+    <input [(ngModel)]="Id" type="number" placeholder="Id">
+    <input type="button" (click)="showOneLot()" value="GetById">
   </div>
-  <input type = "button" (click) = "showAllLots()" value="All Lots">
-  <input type = "button" (click) = "showAllUsers()" value="Users">
+  <input type="button" (click)="showAllLots()" value="All Lots">
+  <input type="button" (click)="showAllUsers()" value="Users">
   <div>
-    <input (click) = "showRegister()" type = "button" value="Register">
-    <input *ngIf = "!currentUser" (click) = "showLogin()" type = "button" value="Login">
-    <div *ngIf = "currentUser">
+    <input *ngIf="!currentUser" (click)="showRegister()" type="button" value="Register">
+    <input *ngIf="!currentUser" (click)="showLogin()" type="button" value="Login">
+    <div *ngIf="currentUser">
       Welcome, {{currentUser.Name}}
-      <input (click) = "showProfile()" type="button" value="My profile">
-      <input (click) = "logout()" type = "button" value="Logout">
+      <input (click)="showProfile()" type="button" value="My profile">
+      <input (click)="logout()" type="button" value="Logout">
     </div>
-  </div>   
+  </div>
 </div>
-<app-lots-list *ngIf = "allLots"></app-lots-list>
-<app-create-lot *ngIf = "createLot"></app-create-lot>
-<app-register-user *ngIf = "register"></app-register-user>
-<app-login-user *ngIf = "login"></app-login-user>
-<app-users-list *ngIf = "allUsers"></app-users-list>
-<app-lot-details *ngIf = "oneLot" [lot] = "lotById"></app-lot-details>
-<app-lot-details *ngIf = "searchLot" [lot] = "lotById"></app-lot-details>
-<app-user-info *ngIf = "profile" [currentUser] = "currentUser"></app-user-info>
+<app-lots-list *ngIf="allLots"></app-lots-list>
+<app-create-lot *ngIf="createLot"></app-create-lot>
+<app-register-user *ngIf="register"></app-register-user>
+<app-login-user *ngIf="login"></app-login-user>
+<app-users-list *ngIf="allUsers"></app-users-list>
+<app-lot-details *ngIf="oneLot" [lot]="lotById"></app-lot-details>
+<app-lot-details *ngIf="searchLot" [lot]="lotById"></app-lot-details>
+<app-user-info *ngIf="profile" [currentUser]="currentUser"></app-user-info>

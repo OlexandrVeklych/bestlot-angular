@@ -13,7 +13,7 @@ import { AccountManagementService } from './services/account-management.service'
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private lotService: LotRepositoryService, private userService: UserRepositoryService, private accountService: AccountManagementService){}
+  constructor(private lotService: LotRepositoryService, private userService: UserRepositoryService, private accountService: AccountManagementService) { }
 
   currentUser: UserAccountInfoModel;
 
@@ -22,9 +22,9 @@ export class AppComponent implements OnInit {
       this.userService.getCurrentUser().subscribe(response => {
         this.currentUser = response;
       },
-      () => {
-        sessionStorage.removeItem("tokenKey");
-      })
+        () => {
+          this.logout();
+        })
   }
 
   Id: number;
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
 
 
-  showAllLots(){
+  showAllLots() {
     this.allLots = true;
     this.oneLot = false;
     this.createLot = false;
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     this.allUsers = false;
     this.profile = false;
   }
-  showOneLot(){
+  showOneLot() {
     this.allLots = false;
     this.oneLot = true;
     this.createLot = false;
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
     this.profile = false;
   }
 
-  showSearch(){
+  showSearch() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;
@@ -76,12 +76,12 @@ export class AppComponent implements OnInit {
     this.register = false;
     this.login = false;
     this.allUsers = false;
-    this.lotService.getLots(1, 10, null, this.searchCategory ).subscribe(response => {
+    this.lotService.getLots(1, 10, null, this.searchCategory).subscribe(response => {
       this.lotById = response[0];
     });
     this.profile = false;
   }
-  showCreateLot(){
+  showCreateLot() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = true;
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
     this.allUsers = false;
     this.profile = false;
   }
-  showRegister(){
+  showRegister() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     this.allUsers = false;
     this.profile = false;
   }
-  showLogin(){
+  showLogin() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;
@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
     this.allUsers = false;
     this.profile = false;
   }
-  showAllUsers(){
+  showAllUsers() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
     this.profile = false;
   }
 
-  showProfile(){
+  showProfile() {
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;
@@ -133,7 +133,7 @@ export class AppComponent implements OnInit {
     this.profile = true;
   }
 
-  logout(){
+  logout() {
     this.currentUser = null;
     this.accountService.logout();
   }

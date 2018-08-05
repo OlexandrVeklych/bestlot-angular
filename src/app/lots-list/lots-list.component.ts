@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LotRepositoryService } from '../services/lot-repository.service';
 import { LotModel } from '../models/lot-model';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,42 +15,18 @@ export class LotsListComponent implements OnInit {
   constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private DomSanitizerService: DomSanitizer) { }
 
   page = 1;
-@Input()  lots: LotModel[] = [
-    {
-      Id: 1,
-      Name: "",
-      Description: "",
-      Category: "",
-      StartDate: "",
-      SellDate: "",
-      SellerUser: null,
-      SellerUserId: "",
-      BuyerUser: null,
-      BuyerUserId: "",
-      MinStep: 0,
-      Price: 0,
-      LotPhotos: [{
-        Id: 0,
-        Path: "",
-        Description: null,
-        LotId: 0,
-        Lot: null
-      }],
-      LotComments: null
-    }
-  ];
+  lots: LotModel[] = [];
 
   selectedLot: LotModel;
 
   isLoading = false;
 
   onLoadLotsClick() {
-    this.lots.length = 0;
     this.selectedLot = null;
     this.isLoading = true;
     this.lotService.getLots(this.page, 10).subscribe(p => {
       this.isLoading = false;
-      this.lots.push(...p);
+      this.lots = p;
       this.page++;
     },
       () => { },//onError

@@ -1,28 +1,28 @@
 <p>
   lot-details works!
 </p>
-<input *ngIf="!show && lot" type="button" (click)="onShowClick()" value="Load details">
+<input *ngIf="!show && _lot" type="button" (click)="onShowClick()" value="Load details">
 
 <div *ngIf="show">
-  <h2>{{lot.Name | uppercase}} Details</h2>
+  <h2>{{_lot.Name | uppercase}} Details</h2>
   <div>
-    <span>id: </span>{{lot.Id}}</div>
+    <span>id: </span>{{_lot.Id}}</div>
   <h3>
-    Description: {{lot.Description}}
+    Description: {{_lot.Description}}
     <br>
-    <br> Category: {{lot.Category}}
+    <br> Category: {{_lot.Category}}
     <br>
-    <br> Last price: {{lot.Price}}
+    <br> Last price: {{_lot.Price}}
     <br>
-    <br> Last price by: {{lot.BuyerUserId}}
+    <br> Last price by: {{_lot.BuyerUserId}}
     <br>
-    <br> Seller user: {{lot.SellerUser.Name}}
+    <br> Seller user: {{_lot.SellerUser.Name}}
     <br>
-    <br> Start date: {{lot.StartDate}}
+    <br> Start date: {{_lot.StartDate}}
     <br>
-    <br> Sell date: {{lot.SellDate}}
+    <br> Sell date: {{_lot.SellDate}}
     <br>
-    <br> Step for bet: {{lot.MinStep}}
+    <br> Step for bet: {{_lot.MinStep}}
     <br>
     <br>
   </h3>
@@ -34,12 +34,12 @@
   <br>
   <br>
   <input type="button" (click)="addComment()" value="Add comment">
-  <div *ngFor="let photo of lot.LotPhotos">
+  <div *ngFor="let photo of _lot.LotPhotos">
     <img [src]="photo.Path">
     <br> Description: {{photo.Description}}
     <br>
   </div>
-  <div *ngFor="let comment of lot.LotComments">
+  <div *ngFor="let comment of _lot.LotComments">
     Message: {{comment.Message}} By: {{comment.User.Name}} {{comment.User.Surname}}
   </div>
   <input *ngIf="commentPage != -1" type="button" (click)="loadComments()" value="Load more comments">

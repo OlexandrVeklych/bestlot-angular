@@ -23,58 +23,53 @@ export class LotDetailsComponent implements OnInit {
   }
 
   show: boolean = false;
-  onShowClick(){
-    this.lotPhotoService.getLotPhotos(this.lot.Id).subscribe(response => {
-      this.lot.LotPhotos = response;
-    });
-
-    this.lotCommentService.getLotComments(this.lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
-      this.lot.LotComments = response;
-    });
-    this.commentPage++;
-    this.userService.getSellerUser(this.lot.Id).subscribe(response => {
-      this.lot.SellerUser = response;
-    });
-    this.userService.getBuyerUser(this.lot.Id).subscribe(response => {
-      if (response)
-        this.lot.BuyerUser = response;
-    });
+  onShowClick() {
     this.show = true;
   }
 
-  @Input() lot: LotModel = {
-    Id: 0,
-    Name: null,
-    Description: null,
-    Category: null,
-    SellerUserId: null,
-    SellerUser: null,
-    BuyerUserId: null,
-    BuyerUser: null,
-    Price: 0,
-    MinStep: 0,
-    StartDate: null,
-    SellDate: null,
-    LotPhotos: null,
-    LotComments: null
+  @Input()
+  set lot(lot: LotModel) {
+    if (!lot)
+      return;
+    this.commentPage = 1;
+    this._lot = lot;
+    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
+      this._lot.LotPhotos = response;
+    });
+
+    this.lotCommentService.getLotComments(this._lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
+      if (response.length < 10)
+        this.commentPage = -1;
+      this._lot.LotComments = response;
+    });
+    this.commentPage++;
+    this.userService.getSellerUser(this._lot.Id).subscribe(response => {
+      this._lot.SellerUser = response;
+    });
+    this.userService.getBuyerUser(this._lot.Id).subscribe(response => {
+      if (response)
+        this._lot.BuyerUser = response;
+    });
+    this.show = false;
   }
+  _lot: LotModel = null;
 
   ngOnInit() {
-    
+
   }
 
   loadComments() {
-    this.lotCommentService.getLotComments(this.lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
+    this.lotCommentService.getLotComments(this._lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
       if (response.length < 10)
         this.commentPage = -1;
       else
-        this.lot.LotComments.push(...response);
+        this._lot.LotComments.push(...response);
     });
   }
 
   addComment() {
     if (!this.comment.Rating || !this.comment.Rating)
       alert("Enter mark and comment");
-    this.lotCommentService.addComment(this.lot.Id, this.comment).subscribe();
+    this.lotCommentService.addComment(this._lot.Id, this.comment).subscribe();
   }
 }

@@ -17,14 +17,20 @@ export class AccountManagementService {
         this.http.post(currentUrl, user).subscribe();
     }
 
-    login(email: string, password: string) {
+    login(email: string, password: string): Observable<any> {
         var loginData = `grant_type=password&username=${email}&password=${password}`
 
         const currentUrl = `${this.baseUrl}token`;
 
-        this.http.post<any>(currentUrl, loginData).subscribe(response => {
-            sessionStorage.setItem("tokenKey", response.access_token)
-        })
+        return this.http.post<any>(currentUrl, loginData);
+    }
+
+    validatePassword(email: string, password: string): Observable<any> {
+        var loginData = `grant_type=password&username=${email}&password=${password}`
+
+        const currentUrl = `${this.baseUrl}token`;
+
+        return this.http.post<any>(currentUrl, loginData);
     }
 
     logout() {
@@ -35,5 +41,14 @@ export class AccountManagementService {
             }
         });
         sessionStorage.removeItem("tokenKey");
+    }
+
+    deleteAccount(email: string): Observable<any> {
+        const currentUrl = `${this.baseUrl}account/deleteuser/?userName=${email}`;  
+        return this.http.delete(currentUrl, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
     }
 }

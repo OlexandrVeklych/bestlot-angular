@@ -3,24 +3,20 @@
 </p>
 
 <input type="number" [(ngModel)]="page" placeholder="Page">
-<input
-  type="button"
-  value="Load Lots"
-  (click)="onLoadLotsClick()"
->
+<input type="button" value="Load Lots" (click)="onLoadLotsClick()">
 
-<div *ngIf="lots" class = "horizontal-list">
+<div *ngIf="lots.length > 0" class="horizontal-list">
   <div class="vertical-list">
-    <div *ngIf="isLoading">Loading...</div>
-    <div *ngFor="let lot of lots; let i = index" class="lot-container" (click) ="onSelect(lot)">
-      <img *ngIf = "lot.LotPhotos && lot.LotPhotos.length > 0" [src]="getPhoto(i,0)">
+    <div *ngFor="let lot of lots; let i = index" (click)="onSelect(lot)">
       <h2>
-        <div>{{lot.Name}}</div>
-        <div>{{lot.Price}}</div>
+        {{lot.Name}}
+        <br> Price: {{lot.Price}}
+        <br>
       </h2>
+      <img *ngIf="lot.LotPhotos && lot.LotPhotos[i]" [src]="getPhoto(i,0)">
     </div>
   </div>
-  <div>
-    <app-lot-details [lot] = "selectedLot"></app-lot-details>
+  <div class="details">
+    <app-lot-details [lot]="selectedLot"></app-lot-details>
   </div>
 </div>

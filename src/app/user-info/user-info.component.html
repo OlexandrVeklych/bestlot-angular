@@ -3,17 +3,41 @@
 </p>
 
 <h3>Email: {{currentUser.Email}} </h3>
-<input [(ngModel)] = currentUser.Name type="text"><br><br>
-<input [(ngModel)] = currentUser.Surname type="text"><br><br>
-<input [(ngModel)] = currentUser.TelephoneNumber type="text"><br><br>
-<input type="button" (click) = "loadLots()" value="Load my lots"><br><br>
-<input type="button" (click) = "putUser()" value="Confirm changes"><br><br>
-<div class="vertical-list" *ngFor = "let lot of currentUser.Lots">
+
+<input [(ngModel)]="currentUser.Name" type="text">
+<br>
+<br>
+<input [(ngModel)]="currentUser.Surname" type="text">
+<br>
+<br>
+<input [(ngModel)]="currentUser.TelephoneNumber" type="text">
+<br>
+<br>
+<input type="button" (click)="loadLots()" value="Load my lots">
+<br>
+<br>
+<input type="button" (click)="putUser()" value="Confirm changes">
+<br>
+<br>
+<input type="button" (click)="deleteCurrentUser()" value="Delete my account">
+<br>
+<br>
+<div class="vertical-list" *ngFor="let lot of currentUser.Lots">
   <h3>
     {{lot.Name}}
   </h3>
-  <div class="horizontal-list">
-      <app-lot-details [lot] = "lot"></app-lot-details><br>
+  <div>
+    <app-lot-details [lot]="lot"></app-lot-details>
+    <br>
   </div>
-  <input type="button" (click) = "deleteLot(lot.Id)" value="Delete this lot">
+  <div *ngFor = "let i of getPhotosCount(); let j = index">
+    <span *ngIf = "lot.LotPhotos[j].Path">
+      <img  src = {{lot.LotPhotos[j].Path}}>
+      <input type="button" (click) = "removePhoto(j)" value="Remove">
+    </span>
+    <input type="file"(change)="onFileChanged($event, j)" multiple = "false" accept="image/*">
+    <input [(ngModel)] = "lot.LotPhotos[j].Description" placeholder="Photo description" type="text"><br><br>
+  </div>
+  <input type ="button"(click) = "submit()" value="Add this lot"><br><br>
+  <input type="button" (click)="deleteLot(lot.Id)" value="Delete this lot">
 </div>
