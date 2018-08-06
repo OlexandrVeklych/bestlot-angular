@@ -23,7 +23,7 @@ export class RegisterUserComponent implements OnInit {
   ngOnInit() {
   }
 
-  register(){
+  register() {
     this.service.register(this.user);
     alert("request sent");
   }

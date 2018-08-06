@@ -1,4 +1,4 @@
-export interface LotPhotoRequestModel{
+export interface LotPhotoRequestModel {
     Path: string;
     Description: string;
 }

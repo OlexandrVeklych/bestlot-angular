@@ -2,12 +2,26 @@
   register-user works!
 </p>
 
-<input type="text" placeholder="Email" [(ngModel)] = "user.Email"><br><br>
-<input type="password" placeholder="Password" [(ngModel)] = "user.Password"><br><br>
-<input type="password" placeholder="ConfirmPassword" [(ngModel)] = "user.ConfirmPassword"><br><br>
-<input type="text" placeholder="Name" [(ngModel)] = "user.Name"><br><br>
-<input type="text" placeholder="Surname" [(ngModel)] = "user.Surname"><br><br>
-<input type="tel" placeholder="TelephoneNumber" [(ngModel)] = "user.TelephoneNumber"><br><br>
-<input type="text" placeholder="Role" [(ngModel)] = "user.Role"><br><br>
+<input type="text" placeholder="Email" [(ngModel)]="user.Email">
+<br>
+<br>
+<input type="password" placeholder="Password" [(ngModel)]="user.Password">
+<br>
+<br>
+<input type="password" placeholder="ConfirmPassword" [(ngModel)]="user.ConfirmPassword">
+<br>
+<br>
+<input type="text" placeholder="Name" [(ngModel)]="user.Name">
+<br>
+<br>
+<input type="text" placeholder="Surname" [(ngModel)]="user.Surname">
+<br>
+<br>
+<input type="tel" placeholder="TelephoneNumber" [(ngModel)]="user.TelephoneNumber">
+<br>
+<br>
+<input type="text" placeholder="Role" [(ngModel)]="user.Role">
+<br>
+<br>
 
-<input type="button" value="Register" (click) = "register()">
+<input type="button" value="Register" (click)="register()">

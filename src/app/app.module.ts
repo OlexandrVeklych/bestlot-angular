@@ -12,6 +12,7 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { LoginUserComponent } from './login-user/login-user.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { LotEditorComponent } from './lot-editor/lot-editor.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
     LoginUserComponent,
     UsersListComponent,
     UserInfoComponent,
+    LotEditorComponent,
   ],
   imports: [
     BrowserModule,

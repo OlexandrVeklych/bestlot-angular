@@ -22,22 +22,16 @@
 <input type="button" (click)="deleteCurrentUser()" value="Delete my account">
 <br>
 <br>
-<div class="vertical-list" *ngFor="let lot of currentUser.Lots">
-  <h3>
-    {{lot.Name}}
-  </h3>
-  <div>
-    <app-lot-details [lot]="lot"></app-lot-details>
+<div class="horizontal-list">
+  <div class="vertical-list">
+    <div *ngFor="let lot of currentUser.Lots" (click)="selectLot(lot)">
+      <h3>
+        {{lot.Name}}
+      </h3>
+    </div>
+  </div>
+  <div *ngIf="selectedLot">
+    <app-lot-editor [lot]="selectedLot" (shouldReload)="reload($event)"></app-lot-editor>
     <br>
   </div>
-  <div *ngFor = "let i of getPhotosCount(); let j = index">
-    <span *ngIf = "lot.LotPhotos[j].Path">
-      <img  src = {{lot.LotPhotos[j].Path}}>
-      <input type="button" (click) = "removePhoto(j)" value="Remove">
-    </span>
-    <input type="file"(change)="onFileChanged($event, j)" multiple = "false" accept="image/*">
-    <input [(ngModel)] = "lot.LotPhotos[j].Description" placeholder="Photo description" type="text"><br><br>
-  </div>
-  <input type ="button"(click) = "submit()" value="Add this lot"><br><br>
-  <input type="button" (click)="deleteLot(lot.Id)" value="Delete this lot">
 </div>

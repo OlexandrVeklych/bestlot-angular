@@ -44,7 +44,7 @@ export class AccountManagementService {
     }
 
     deleteAccount(email: string): Observable<any> {
-        const currentUrl = `${this.baseUrl}account/deleteuser/?userName=${email}`;  
+        const currentUrl = `${this.baseUrl}account/deleteuser/?userName=${email}`;
         return this.http.delete(currentUrl, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")

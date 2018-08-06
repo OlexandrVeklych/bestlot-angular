@@ -34,4 +34,9 @@ export class LotPhotoRepositoryService {
         const currentUrl = `${this.baseUrl}lots/${lotId}/photos/${photoNumber}`;
         return this.http.get<LotPhotoModel>(currentUrl);
     }
+
+    deleteLotPhoto(photoId: number): Observable<any>{
+        const currentUrl = `${this.baseUrl}lotphotos/${photoId}`;
+        return this.http.delete(currentUrl);
+    }
 }

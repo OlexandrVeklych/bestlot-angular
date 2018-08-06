@@ -9,11 +9,11 @@ import { LotRepositoryService } from '../services/lot-repository.service';
 })
 export class CreateLotComponent implements OnInit {
 
-  constructor(private service: LotRepositoryService) { }
+  constructor(private lotService: LotRepositoryService) { }
 
   photosCount = 1;
-  
-  getPhotosCount(){
+
+  getPhotosCount() {
     return new Array(this.photosCount);
   }
 
@@ -33,28 +33,42 @@ export class CreateLotComponent implements OnInit {
   ngOnInit() {
   }
 
-  submit(){
+  submit() {
     this.lot.LotPhotos.pop();
     this.photosCount--;
     this.lot.LotPhotos.forEach(lotPhoto => {
-      lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,","")
+      lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,", "")
     });
-    this.service.postLot(this.lot).subscribe();
+    this.lotService.postLot(this.lot).subscribe(
+      () => { },
+      () => {
+        alert("Error");
+        this.lot.LotPhotos.forEach(lotPhoto => {
+          lotPhoto.Path = lotPhoto.Path = "data:image/jpeg;base64," + lotPhoto.Path;
+        });
+      },
+      () => {
+        alert("Success");
+        this.lot.LotPhotos.forEach(lotPhoto => {
+          lotPhoto.Path = lotPhoto.Path = "data:image/jpeg;base64," + lotPhoto.Path;
+        });
+      }
+    );
     alert('request sent');
   }
 
-  removePhoto(position: number){
-    for(var i = position; i < this.lot.LotPhotos.length; i++){
+  removePhoto(position: number) {
+    for (var i = position; i < this.lot.LotPhotos.length; i++) {
       this.lot.LotPhotos[i] = this.lot.LotPhotos[i + 1];
     }
     this.lot.LotPhotos.pop;
     this.photosCount--;
   }
 
-  onFileChanged(event, j){
+  onFileChanged(event, j) {
     console.log(event);
     this.photosCount = j + 2;
-    var myReader:FileReader = new FileReader();
+    var myReader: FileReader = new FileReader();
 
     myReader.onloadend = (e) => {
       this.lot.LotPhotos[j].Path = myReader.result.toString();

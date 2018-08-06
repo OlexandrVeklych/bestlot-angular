@@ -1,0 +1,53 @@
+<p>
+  lot-editor works!
+</p>
+<input *ngIf="!show && _lot" type="button" (click)="onShowClick()" value="Load details">
+
+<div *ngIf="show">
+  <h2>{{_lot.Name | uppercase}} Editor</h2>
+  <div>
+    <span>id: </span>{{_lot.Id}}</div>
+  <h3>
+    Description:
+    <input type="text" [(ngModel)]="_lot.Description">
+    <br>
+    <br> Category:
+    <input type="text" [(ngModel)]="_lot.Category">
+    <br>
+    <br> Last price: {{_lot.Price}}
+    <br>
+    <br> BuyerUserId: {{_lot.BuyerUserId}}
+    <br>
+    <br> Seller user: {{_lot.SellerUser.Name}} {{_lot.SellerUser.Surname}}
+    <br>
+    <br> Start date: {{_lot.StartDate}}
+    <br>
+    <br> Sell date:
+    <input type="text" [(ngModel)]="_lot.SellDate">
+    <br>
+    <br> Step for bet:
+    <input type="number" [(ngModel)]="_lot.MinStep">
+    <br>
+    <br>
+  </h3>
+
+  <input type="button" (click)="deleteLot()" value="Delete this lot">
+  <input type="button" (click)="updateLot()" value="Confirm changes">
+  <div *ngFor="let photo of _lot.LotPhotos">
+    <img [src]="photo.Path">
+    <br> Description: {{photo.Description}}
+    <br>
+    <input type="button" (click)="deletePhoto(photo.Id)" value="Delete this photo">
+  </div>
+  <div *ngFor="let i of getPhotosCount(); let j = index">
+    <span *ngIf="lotPhotos[j].Path">
+      <img [src]="lotPhotos[j].Path">
+      <input type="button" (click)="removePhoto(j)" value="Remove">
+    </span>
+    <input type="file" (change)="onFileChanged($event, j)" multiple="false" accept="image/*">
+    <input [(ngModel)]="lotPhotos[j].Description" placeholder="Photo description" type="text">
+    <br>
+    <br>
+  </div>
+  <input type="button" (click)="loadPhotos()" value="Add photos">
+</div>

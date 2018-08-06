@@ -1,7 +1,7 @@
 import { LotModel } from "./lot-model";
 import { UserAccountInfoModel } from "./user-account-info-model";
 
-export interface LotCommentModel{
+export interface LotCommentModel {
     Id: number;
     Message: string;
     UserId: string;

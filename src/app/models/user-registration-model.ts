@@ -1,5 +1,5 @@
-export interface UserRegistrationModel{
-    Email:string;
+export interface UserRegistrationModel {
+    Email: string;
     Password: string;
     ConfirmPassword: string;
     Name: string;

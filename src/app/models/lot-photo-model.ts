@@ -1,6 +1,6 @@
 import { LotModel } from "./lot-model";
 
-export interface LotPhotoModel{
+export interface LotPhotoModel {
     Id: number;
     Path: string;
     Description: string;
