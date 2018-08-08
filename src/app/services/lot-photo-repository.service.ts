@@ -23,11 +23,7 @@ export class LotPhotoRepositoryService {
 
     getLotPhotos(lotId: number): Observable<LotPhotoModel[]> {
         const currentUrl = `${this.baseUrl}lots/${lotId}/photos`;
-        return this.http.get<LotPhotoModel[]>(currentUrl, {
-            headers: {
-                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
-            }
-        });
+        return this.http.get<LotPhotoModel[]>(currentUrl);
     }
 
     getLotPhotoByNumber(lotId: number, photoNumber: number): Observable<LotPhotoModel> {
@@ -35,8 +31,12 @@ export class LotPhotoRepositoryService {
         return this.http.get<LotPhotoModel>(currentUrl);
     }
 
-    deleteLotPhoto(photoId: number): Observable<any>{
+    deleteLotPhoto(photoId: number): Observable<any> {
         const currentUrl = `${this.baseUrl}lotphotos/${photoId}`;
-        return this.http.delete(currentUrl);
+        return this.http.delete(currentUrl, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
     }
 }

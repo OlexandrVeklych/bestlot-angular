@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { UserRepositoryService } from '../services/user-repository.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LotRepositoryService } from '../services/lot-repository.service';
 import { UserAccountInfoModel } from '../models/user-account-info-model';
 import { AccountManagementService } from '../services/account-management.service';
 import { LotModel } from '../models/lot-model';
+import { LotCommentRepositoryService } from '../services/lot-coment-repository.service';
 
 @Component({
   selector: 'app-user-info',
@@ -12,7 +12,7 @@ import { LotModel } from '../models/lot-model';
 })
 export class UserInfoComponent implements OnInit {
 
-  constructor(private userService: UserRepositoryService, private lotService: LotRepositoryService, private accountService: AccountManagementService) { }
+  constructor(private lotCommentService: LotCommentRepositoryService, private lotService: LotRepositoryService, private accountService: AccountManagementService) { }
 
   @Input() currentUser: UserAccountInfoModel;
 
@@ -20,57 +20,59 @@ export class UserInfoComponent implements OnInit {
   }
 
   selectedLot: LotModel;
+  showLots: boolean = false;
+  showComments: boolean = false;
+
+  @Output() shouldReload = new EventEmitter<boolean>();
 
   selectLot(lot: LotModel) {
     this.selectedLot = lot;
   }
 
-  reload(shouldReload: boolean) {
-    if (shouldReload){
-      this.loadLots();
-      this.selectedLot = null;
-    }
+  loadLots(event) {
+    if (!event)
+      this.lotService.getUserLots(this.currentUser.Email, 1, 10).subscribe(response => {
+        this.currentUser.Lots = response;
+        this.showLots = true;
+        this.showComments = false;
+      })
+    else
+    this.lotService.getUserLots(this.currentUser.Email, event.page, event.amount).subscribe(response => {
+      this.currentUser.Lots = response;
+      this.showLots = true;
+      this.showComments = false;
+    })
   }
 
-  putUser() {
-    this.userService.putUser(this.currentUser.Email, this.currentUser).subscribe();
-  }
-
-  deleteLot(lotId: number) {
-    this.lotService.deleteLot(lotId).subscribe(
+  deleteUser() {
+    if (!confirm("This will delete account and all lots. Delete account?"))
+      return;
+    if (!confirm("Account can`t be restored. Delete account?"))
+      return;
+    if (!confirm("Maybe no?"))
+      return;
+    if (!confirm("Please.."))
+      return;
+    if (!confirm("*cries*"))
+      return;
+    alert("Ой всё!")
+    this.accountService.deleteAccount(this.currentUser.Email).subscribe(
       () => { },
       () => { alert("Error") },
       () => {
         alert("Success");
-        this.loadLots();
+        this.shouldReload.emit(true);
       });
     alert("Delete request sent");
   }
 
-  deleteCurrentUser() {
-    if (confirm("This will delete your account and all lots. Delete account?")) {
-      var password = prompt("Password")
-      this.accountService.validatePassword(this.currentUser.Email, password).subscribe(() => { },
-        () => { alert("Wrong password") },
-        () => {
-          this.accountService.deleteAccount(this.currentUser.Email).subscribe(
-            () => { },
-            () => { alert("Error when deleting") },
-            () => {
-              alert("Deleted successfully");
-              this.accountService.logout();
-              location.reload();
-            });
-        });
-    }
-  }
-
-  loadLots() {
-    this.lotService.getUserLots(this.currentUser.Email, 1, 10).subscribe(response => {
-      this.currentUser.Lots = response;
+  loadComments() {
+    this.lotCommentService.getUserLotComments(this.currentUser.Email, 1, 10).subscribe(response => {
+      this.currentUser.LotComments = response;
+      this.showLots = false;
+      this.showComments = true;
     })
   }
-
   //submit(){
   //this.lot.LotPhotos.pop();
   //this.photosCount--;

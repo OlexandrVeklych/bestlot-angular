@@ -1,10 +1,3 @@
-.lot-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    justify-content: flex-start;
-}
-
 .vertical-list{
     width: 25%;
     min-width: 300px;
@@ -30,4 +23,3 @@ span {
 img {
     width: 100%;
 }
-

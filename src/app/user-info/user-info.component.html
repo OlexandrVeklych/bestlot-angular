@@ -3,27 +3,27 @@
 </p>
 
 <h3>Email: {{currentUser.Email}} </h3>
+<br>
+<br> Name: {{currentUser.Name}}
+<br>
+<br> Surname: {{currentUser.Surname}}
+<br>
+<br> Telephone: {{currentUser.Telephone}}
+<br>
+<br>
 
-<input [(ngModel)]="currentUser.Name" type="text">
+<input type="button" (click)="loadLots()" value="Load this user lots">
 <br>
 <br>
-<input [(ngModel)]="currentUser.Surname" type="text">
+<input type="button" (click)="loadComments()" value="Load this user comments">
 <br>
 <br>
-<input [(ngModel)]="currentUser.TelephoneNumber" type="text">
+<input type="button" (click)="deleteUser()" value="Delete this user">
 <br>
 <br>
-<input type="button" (click)="loadLots()" value="Load my lots">
-<br>
-<br>
-<input type="button" (click)="putUser()" value="Confirm changes">
-<br>
-<br>
-<input type="button" (click)="deleteCurrentUser()" value="Delete my account">
-<br>
-<br>
-<div class="horizontal-list">
-  <div class="vertical-list">
+<div *ngIf="showLots || showComments" class="horizontal-list">
+  <app-lots-list *ngIf = "showLots" [lots] = "currentUser.Lots"(shouldLoad)="loadLots($event)"></app-lots-list>
+  <!-- <div *ngIf="showLots" class="vertical-list">
     <div *ngFor="let lot of currentUser.Lots" (click)="selectLot(lot)">
       <h3>
         {{lot.Name}}
@@ -31,7 +31,16 @@
     </div>
   </div>
   <div *ngIf="selectedLot">
-    <app-lot-editor [lot]="selectedLot" (shouldReload)="reload($event)"></app-lot-editor>
+    <app-lot-details [lot]="selectedLot"></app-lot-details>
     <br>
+  </div> -->
+
+  <div *ngIf="showComments" class="vertical-list">
+    <div *ngFor="let comment of currentUser.LotComments">
+      <h3>
+        {{comment.Message}}
+        <br>Lot id: {{comment.LotId}}
+      </h3>
+    </div>
   </div>
 </div>

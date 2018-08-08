@@ -33,7 +33,12 @@ export class LotCommentRepositoryService {
 
     getUserLotComments(email: string, page: number, amount: number): Observable<LotCommentModel[]> {
         const currentUrl = `${this.baseUrl}users/${email}/comments/?page=${page}&amount=${amount}`;
-        return this.http.get<LotCommentModel[]>(currentUrl);
+        return this.http.get<LotCommentModel[]>(currentUrl,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+                }
+            });
     }
 
     getLotCommentByNumber(lotId: number, commentNumber: number): Observable<LotCommentModel> {

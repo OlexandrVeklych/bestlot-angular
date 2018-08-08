@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LotRepositoryService } from '../services/lot-repository.service';
 import { LotModel } from '../models/lot-model';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,7 +15,19 @@ export class LotsListComponent implements OnInit {
   constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private DomSanitizerService: DomSanitizer) { }
 
   page = 1;
-  lots: LotModel[] = [];
+
+  shouldLoadAll: boolean = true;
+
+  @Input() set lots(lots: LotModel[]) {
+    this._lots = lots;
+    if (this.shouldLoadAll)
+      this.shouldLoadAll = false;
+  }
+
+  @Output() shouldLoad = new EventEmitter<{ page: number, amount: number }>();
+
+
+  _lots: LotModel[] = [];
 
   selectedLot: LotModel;
 
@@ -24,23 +36,26 @@ export class LotsListComponent implements OnInit {
   onLoadLotsClick() {
     this.selectedLot = null;
     this.isLoading = true;
-    this.lotService.getLots(this.page, 10).subscribe(p => {
-      this.isLoading = false;
-      this.lots = p;
-      this.page++;
-    },
-      () => { },//onError
-      () => { //onComplete => load photo
-        this.lots.forEach(lot => {
-          this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(response => {
-            lot.LotPhotos = [response];
-          })
+    if (this.shouldLoadAll)
+      this.lotService.getLots(this.page, 10).subscribe(p => {
+        this.isLoading = false;
+        this._lots = p;
+        this.page++;
+      },
+        () => { },//onError
+        () => { //onComplete => load photo
+          this._lots.forEach(lot => {
+            this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(response => {
+              lot.LotPhotos = [response];
+            })
+          });
         });
-      });
+    else
+      this.shouldLoad.emit({ page: this.page, amount: 10 });
   }
 
   getPhoto(lotNumber: number, photoNumber: number) {
-    return this.DomSanitizerService.bypassSecurityTrustUrl(this.lots[lotNumber].LotPhotos[photoNumber].Path);
+    return this.DomSanitizerService.bypassSecurityTrustUrl(this._lots[lotNumber].LotPhotos[photoNumber].Path);
   }
 
   onSelect(lot: LotModel) {

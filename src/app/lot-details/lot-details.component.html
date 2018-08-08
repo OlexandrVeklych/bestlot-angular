@@ -26,6 +26,9 @@
     <br>
     <br>
   </h3>
+  My bid:
+  <input type="number" [(ngModel)]="bid">
+  <input type="button" (click) = "confirmBid()" value = "Confirm bid">
   <h2>Comments</h2>
   <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark">
   <br>

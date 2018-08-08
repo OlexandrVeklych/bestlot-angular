@@ -1,5 +1,20 @@
 <p>
   users-list works!
 </p>
+<input type="number" [(ngModel)]="page" placeholder="Page">
+<input type="button" (click)="loadUsers()" value="Load users">
 
-<h1>Registered users: {{usersCount}}</h1>
+<div *ngIf="users.length > 0" class="horizontal-list">
+  <div class="vertical-list">
+    <div *ngFor="let user of users; let i = index" (click)="onSelect(user)">
+      <h2>
+        {{user.Name}} {{user.Surname}}
+        <br> Email: {{user.Email}}
+        <br>
+      </h2>
+    </div>
+  </div>
+  <div *ngIf="selectedUser" class="details">
+    <app-user-info [currentUser]="selectedUser" (shouldReload)="reload($event)"></app-user-info>
+  </div>
+</div>

@@ -5,15 +5,15 @@
 <input type="number" [(ngModel)]="page" placeholder="Page">
 <input type="button" value="Load Lots" (click)="onLoadLotsClick()">
 
-<div *ngIf="lots.length > 0" class="horizontal-list">
+<div *ngIf="_lots && _lots.length > 0" class="horizontal-list">
   <div class="vertical-list">
-    <div *ngFor="let lot of lots; let i = index" (click)="onSelect(lot)">
+    <div *ngFor="let lot of _lots; let i = index" (click)="onSelect(lot)">
       <h2>
         {{lot.Name}}
         <br> Price: {{lot.Price}}
         <br>
       </h2>
-      <img *ngIf="lot.LotPhotos && lot.LotPhotos[i]" [src]="getPhoto(i,0)">
+      <img *ngIf="lot.LotPhotos && lot.LotPhotos[0]" [src]="getPhoto(i,0)">
     </div>
   </div>
   <div class="details">

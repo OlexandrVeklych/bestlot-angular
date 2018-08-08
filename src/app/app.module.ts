@@ -13,6 +13,8 @@ import { LoginUserComponent } from './login-user/login-user.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { LotEditorComponent } from './lot-editor/lot-editor.component';
+import { LotSearchComponent } from './lot-search/lot-search.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { LotEditorComponent } from './lot-editor/lot-editor.component';
     UsersListComponent,
     UserInfoComponent,
     LotEditorComponent,
+    LotSearchComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

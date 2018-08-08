@@ -39,7 +39,7 @@ export class AccountManagementService {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
             }
-        });
+        }).subscribe();
         sessionStorage.removeItem("tokenKey");
     }
 

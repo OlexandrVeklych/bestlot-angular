@@ -4,6 +4,7 @@ import { LotCommentRepositoryService } from '../services/lot-coment-repository.s
 import { LotCommentRequestModel } from '../models/lot-comment-request-model';
 import { LotPhotoRepositoryService } from '../services/lot-photo-repository.service';
 import { UserRepositoryService } from '../services/user-repository.service';
+import { LotRepositoryService } from '../services/lot-repository.service';
 
 @Component({
   selector: 'app-lot-details',
@@ -12,7 +13,10 @@ import { UserRepositoryService } from '../services/user-repository.service';
 })
 export class LotDetailsComponent implements OnInit {
 
-  constructor(private lotCommentService: LotCommentRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private userService: UserRepositoryService) { }
+  constructor(private lotCommentService: LotCommentRepositoryService,
+    private lotPhotoService: LotPhotoRepositoryService,
+    private userService: UserRepositoryService,
+    private lotService: LotRepositoryService) { }
 
   commentPage: number = 1;
   commentAmount: number = 10;
@@ -33,6 +37,7 @@ export class LotDetailsComponent implements OnInit {
       return;
     this.commentPage = 1;
     this._lot = lot;
+    this.bid = this._lot.Price + this._lot.MinStep;
     this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
       this._lot.LotPhotos = response;
     });
@@ -52,10 +57,24 @@ export class LotDetailsComponent implements OnInit {
     });
     this.show = false;
   }
-  _lot: LotModel = null;
 
+  _lot: LotModel = null;
+  bid: number = 0;
   ngOnInit() {
 
+  }
+
+  confirmBid() {
+    if (this._lot.Price + this._lot.MinStep > this.bid){
+      alert("Minimum availible bid is " + (this._lot.Price + this._lot.MinStep));
+      return;
+    }
+    if (confirm("Place bid of " + this.bid + "for " + this._lot.Name + "?"))
+      this.lotService.postBid(this._lot.Id, this.bid).subscribe(
+        () => { },
+        () => { alert("Error") },
+        () => { alert("Success") }
+      );
   }
 
   loadComments() {

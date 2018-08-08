@@ -54,4 +54,13 @@ export class LotRepositoryService {
             }
         });
     }
+
+    postBid(id: number, price: number){
+        const currentUrl = `${this.baseUrl}lots/${id}/bid`;
+        return this.http.post<LotModel>(currentUrl, price, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
+    }
 }

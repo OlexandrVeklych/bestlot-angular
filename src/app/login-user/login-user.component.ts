@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AccountManagementService } from '../services/account-management.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class LoginUserComponent implements OnInit {
   ngOnInit() {
   }
 
+  @Output() shouldReload = new EventEmitter<boolean>();
 
   login() {
     this.service.login(this.email, this.password).subscribe(response => {
@@ -27,7 +28,7 @@ export class LoginUserComponent implements OnInit {
       },
       () => {
         alert("Welcome");
-        location.reload();
+        this.shouldReload.emit(true);
       });
   }
 }

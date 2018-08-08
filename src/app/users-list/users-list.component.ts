@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserRepositoryService } from '../services/user-repository.service';
+import { UserAccountInfoModel } from '../models/user-account-info-model';
 
 @Component({
   selector: 'app-users-list',
@@ -8,14 +9,34 @@ import { UserRepositoryService } from '../services/user-repository.service';
 })
 export class UsersListComponent implements OnInit {
 
-  constructor(private service: UserRepositoryService) { }
+  constructor(private userService: UserRepositoryService) { }
 
-  usersCount: number;
+  users: UserAccountInfoModel[] = []
+
+  page: number = 1;
 
   ngOnInit() {
-    this.service.getUsers(1, 10).subscribe();
   }
 
+  selectedUser: UserAccountInfoModel;
 
+  reload(shouldReload: boolean) {
+    if (shouldReload){
+      this.loadUsers();
+      this.selectedUser = null;
+    }
+  }
+
+  onSelect(user: UserAccountInfoModel){
+    this.selectedUser = user;
+  }
+
+  loadUsers(){
+    this.userService.getUsers(this.page, 10).subscribe(
+      result => { this.users = result },
+      () => { alert("Error") },
+      () => { }
+    );
+  }
 
 }

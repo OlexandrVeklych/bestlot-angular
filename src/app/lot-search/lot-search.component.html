@@ -1,0 +1,19 @@
+<p>
+  lot-search works!
+</p>
+
+Name:
+<input type="text" [(ngModel)]="name">
+<br> Category:
+<input type="text" [(ngModel)]="category">
+<br> Minimum price:
+<input type="number" [(ngModel)]="minPrice">
+<br> Maximum price:
+<input type="text" [(ngModel)]="maxPrice">
+<br>
+<br>
+<input type="button" (click)="search()" value="Search">
+<br>
+<br> Results:
+<br>
+<app-lots-list [lots]="searchResult" (shouldLoad)="loadLots($event)"></app-lots-list>

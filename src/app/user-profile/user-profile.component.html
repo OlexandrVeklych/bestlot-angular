@@ -1,0 +1,37 @@
+<p>
+  user-profile works!
+</p>
+
+<h3>Email: {{currentUser.Email}} </h3>
+
+<input [(ngModel)]="currentUser.Name" type="text">
+<br>
+<br>
+<input [(ngModel)]="currentUser.Surname" type="text">
+<br>
+<br>
+<input [(ngModel)]="currentUser.TelephoneNumber" type="text">
+<br>
+<br>
+<input type="button" (click)="loadLots()" value="Load my lots">
+<br>
+<br>
+<input type="button" (click)="putUser()" value="Confirm changes">
+<br>
+<br>
+<input type="button" (click)="deleteCurrentUser()" value="Delete my account">
+<br>
+<br>
+<div class="horizontal-list">
+  <div class="vertical-list">
+    <div *ngFor="let lot of currentUser.Lots" (click)="selectLot(lot)">
+      <h3>
+        {{lot.Name}}
+      </h3>
+    </div>
+  </div>
+  <div *ngIf="selectedLot">
+    <app-lot-editor [lot]="selectedLot" (shouldReload)="reload($event)"></app-lot-editor>
+    <br>
+  </div>
+</div>

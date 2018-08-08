@@ -2,8 +2,9 @@
 <div class="navbar">
   <input type="button" (click)="showCreateLot()" value="AddLot">
   <div>
-    <input [(ngModel)]="searchCategory" type="text" placeholder="Request">
+    <input [(ngModel)]="searchName" type="text" placeholder="Lot name">
     <input type="button" (click)="showSearch()" value="Search">
+    <input type="button" (click)="showDetailedSearch()" value="Detailed search">
   </div>
   <div>
     <input [(ngModel)]="Id" type="number" placeholder="Id">
@@ -24,8 +25,9 @@
 <app-lots-list *ngIf="allLots"></app-lots-list>
 <app-create-lot *ngIf="createLot"></app-create-lot>
 <app-register-user *ngIf="register"></app-register-user>
-<app-login-user *ngIf="login"></app-login-user>
+<app-login-user *ngIf="login" (shouldReload)="reloadCurrentUser()"></app-login-user>
 <app-users-list *ngIf="allUsers"></app-users-list>
 <app-lot-details *ngIf="oneLot" [lot]="lotById"></app-lot-details>
-<app-lot-details *ngIf="searchLot" [lot]="lotById"></app-lot-details>
-<app-user-info *ngIf="profile" [currentUser]="currentUser"></app-user-info>
+<app-lots-list *ngIf="searchLots" [lots]="lotsByName" (shouldLoad)="loadLots($event)"></app-lots-list>
+<app-user-profile *ngIf="profile" [currentUser]="currentUser"></app-user-profile>
+<app-lot-search *ngIf="detailedSearch"></app-lot-search>
