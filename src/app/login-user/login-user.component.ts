@@ -11,20 +11,19 @@ export class LoginUserComponent implements OnInit {
   constructor(private service: AccountManagementService) { }
 
   email: string;
-
   password: string;
+
+  @Output() shouldReload = new EventEmitter<boolean>();
 
   ngOnInit() {
   }
-
-  @Output() shouldReload = new EventEmitter<boolean>();
 
   login() {
     this.service.login(this.email, this.password).subscribe(response => {
       sessionStorage.setItem("tokenKey", response.access_token)
     },
       () => {
-        alert("Wrong password")
+        alert("Wrong password or email")
       },
       () => {
         alert("Welcome");

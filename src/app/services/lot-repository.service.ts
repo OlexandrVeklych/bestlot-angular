@@ -4,6 +4,7 @@ import { LotModel } from "../models/lot-model";
 import { AccountManagementService } from './account-management.service';
 import { Injectable } from '@angular/core';
 import { LotRequestModel } from '../models/lot-request-model';
+import { UserAccountInfoModel } from '../models/user-account-info-model';
 
 @Injectable({
     providedIn: 'root',
@@ -46,18 +47,27 @@ export class LotRepositoryService {
         });
     }
 
-    deleteLot(id: number): Observable<LotModel> {
+    deleteLot(id: number): Observable<any> {
         const currentUrl = `${this.baseUrl}lots/${id}`;
-        return this.http.delete<LotModel>(currentUrl, {
+        return this.http.delete<any>(currentUrl, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
             }
         });
     }
 
-    postBid(id: number, price: number){
+    postBid(id: number, price: number) {
         const currentUrl = `${this.baseUrl}lots/${id}/bid`;
-        return this.http.post<LotModel>(currentUrl, price, {
+        return this.http.post<any>(currentUrl, price, {
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
+            }
+        });
+    }
+
+    getBid(id: number): Observable<{ Price: number, SellDate: Date, BuyerUser: UserAccountInfoModel }> {
+        const currentUrl = `${this.baseUrl}lots/${id}/bid`;
+        return this.http.get<{ Price: number, SellDate: Date, BuyerUser: UserAccountInfoModel }>(currentUrl, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
             }

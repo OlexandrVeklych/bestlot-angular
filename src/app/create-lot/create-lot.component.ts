@@ -11,34 +11,53 @@ export class CreateLotComponent implements OnInit {
 
   constructor(private lotService: LotRepositoryService) { }
 
+  determinedSelldate: boolean = true;
+  days: number = 0;
+  hours: number = 1;
+  minutes: number = 0;
+  seconds: number = 0;
   photosCount = 1;
-
-  getPhotosCount() {
-    return new Array(this.photosCount);
-  }
-
   lot: LotRequestModel = {
     Name: "",
     Description: "",
     Category: "",
+    StartDate: null,
     SellDate: null,
     MinStep: 0,
     Price: 0,
     LotPhotos: [{
       Path: "",
       Description: ""
-    }]
+    }],
+    BidPlacer: 1
   };
 
   ngOnInit() {
   }
 
-  submit() {
+  getPhotosCount() {
+    return new Array(this.photosCount);
+  }
+
+  addLot() {
     this.lot.LotPhotos.pop();
     this.photosCount--;
     this.lot.LotPhotos.forEach(lotPhoto => {
       lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,", "")
     });
+    if (!this.determinedSelldate) {
+      this.lot.BidPlacer = 2;
+      var now = new Date();
+      this.lot.StartDate = now;
+      this.lot.SellDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + this.days,
+        now.getHours() + this.hours,
+        now.getMinutes() + this.minutes,
+        now.getSeconds() + this.seconds
+      )
+    }
     this.lotService.postLot(this.lot).subscribe(
       () => { },
       () => {

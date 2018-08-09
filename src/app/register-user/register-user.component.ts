@@ -9,7 +9,7 @@ import { UserRegistrationModel } from '../models/user-registration-model';
 })
 export class RegisterUserComponent implements OnInit {
 
-  constructor(private service: AccountManagementService) { }
+  constructor(private accountService: AccountManagementService) { }
 
   user: UserRegistrationModel = {
     Email: '',
@@ -20,11 +20,15 @@ export class RegisterUserComponent implements OnInit {
     TelephoneNumber: '',
     Role: '',
   }
+
   ngOnInit() {
   }
 
   register() {
-    this.service.register(this.user);
-    alert("request sent");
+    this.accountService.register(this.user).subscribe(
+      () => { },
+      (response) => { alert("Error - " + response.Message) },
+      () => { alert("Success, now you can login") }
+    );
   }
 }

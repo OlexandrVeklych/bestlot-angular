@@ -2,26 +2,27 @@
   register-user works!
 </p>
 
+Email:
 <input type="text" placeholder="Email" [(ngModel)]="user.Email">
 <br>
-<br>
+<br>Password:
 <input type="password" placeholder="Password" [(ngModel)]="user.Password">
 <br>
-<br>
+<br>Confirm password:
 <input type="password" placeholder="ConfirmPassword" [(ngModel)]="user.ConfirmPassword">
 <br>
-<br>
+<br>Name:
 <input type="text" placeholder="Name" [(ngModel)]="user.Name">
 <br>
-<br>
+<br>Surname:
 <input type="text" placeholder="Surname" [(ngModel)]="user.Surname">
 <br>
-<br>
+<br>Telephone number:
 <input type="tel" placeholder="TelephoneNumber" [(ngModel)]="user.TelephoneNumber">
 <br>
-<br>
+<br>Role:
 <input type="text" placeholder="Role" [(ngModel)]="user.Role">
 <br>
+<br> (All fields are required)
 <br>
-
 <input type="button" value="Register" (click)="register()">

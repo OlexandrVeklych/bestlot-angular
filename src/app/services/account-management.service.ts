@@ -12,9 +12,9 @@ export class AccountManagementService {
 
     constructor(private http: HttpClient) { }
 
-    register(user: UserRegistrationModel) {
+    register(user: UserRegistrationModel): Observable<any> {
         const currentUrl = `${this.baseUrl}account/register`;
-        this.http.post(currentUrl, user).subscribe();
+        return this.http.post(currentUrl, user);
     }
 
     login(email: string, password: string): Observable<any> {

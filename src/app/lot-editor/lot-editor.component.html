@@ -35,7 +35,7 @@
   <input type="button" (click)="updateLot()" value="Confirm changes">
   <div *ngFor="let photo of _lot.LotPhotos">
     <img [src]="photo.Path">
-    <br> Description: {{photo.Description}}
+    <br>Photo description: {{photo.Description}}
     <br>
     <input type="button" (click)="deletePhoto(photo.Id)" value="Delete this photo">
   </div>
@@ -45,6 +45,7 @@
       <input type="button" (click)="removePhoto(j)" value="Remove">
     </span>
     <input type="file" (change)="onFileChanged($event, j)" multiple="false" accept="image/*">
+    <br> Description:
     <input [(ngModel)]="lotPhotos[j].Description" placeholder="Photo description" type="text">
     <br>
     <br>

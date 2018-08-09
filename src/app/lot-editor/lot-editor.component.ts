@@ -15,12 +15,15 @@ export class LotEditorComponent implements OnInit {
 
   constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private userService: UserRepositoryService) { }
 
-  ngOnInit() {
-  }
   photosCount: number = 1;
-
-  getPhotosCount() {
-    return new Array(this.photosCount);
+  show: boolean = false;
+  _lot: LotModel;
+  lotPhotos: LotPhotoRequestModel[] = [{
+    Path: "",
+    Description: ""
+  }];
+  
+  ngOnInit() {
   }
 
   @Input()
@@ -35,12 +38,17 @@ export class LotEditorComponent implements OnInit {
 
   @Output() shouldReload = new EventEmitter<boolean>();
 
-  loadLotPhotos(){
+  loadLotPhotos() {
     this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
       this._lot.LotPhotos = response;
     });
   }
-  loadLotUsers(){
+
+  getPhotosCount() {
+    return new Array(this.photosCount);
+  }
+
+  loadLotUsers() {
     this.userService.getSellerUser(this._lot.Id).subscribe(response => {
       this._lot.SellerUser = response;
     });
@@ -49,20 +57,16 @@ export class LotEditorComponent implements OnInit {
         this._lot.BuyerUser = response;
     });
   }
-  show: boolean = false;
+
   onShowClick() {
     this.show = true;
   }
-  _lot: LotModel;
-
-  lotPhotos: LotPhotoRequestModel[] = [{
-    Path: "",
-    Description: ""
-  }];
 
   updateLot() {
-    this.lotService.putLot(this._lot.Id, this._lot).subscribe();
-    alert('request sent');
+    this.lotService.putLot(this._lot.Id, this._lot).subscribe(
+      () => { },
+      () => { alert("Error") },
+      () => { alert("Success") });
   }
 
   removePhoto(position: number) {
@@ -88,23 +92,19 @@ export class LotEditorComponent implements OnInit {
   }
 
   deletePhoto(photoId: number) {
-    this.lotPhotoService.deleteLotPhoto(photoId).subscribe(() => { },
-      () => {
-        alert("Error");
-      },
+    this.lotPhotoService.deleteLotPhoto(photoId).subscribe(
+      () => { },
+      () => { alert("Error"); },
       () => {
         alert("Success");
         this.loadLotPhotos();
       });
   }
 
-  deleteLot(){
+  deleteLot() {
     this.lotService.deleteLot(this._lot.Id).subscribe(
       () => { },
-      () => {
-        alert("Error");
-        this.loadLotPhotos();
-      },
+      () => { alert("Error"); },
       () => {
         alert("Success");
         this.show = false;

@@ -6,6 +6,8 @@ export interface LotRequestModel {
   Category: string;
   Price: number;
   MinStep: number;
+  StartDate: Date;
   SellDate: Date;
   LotPhotos: LotPhotoRequestModel[];
+  BidPlacer: number;
 }

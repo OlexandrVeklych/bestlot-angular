@@ -3,7 +3,7 @@
 </p>
 <input *ngIf="!show && _lot" type="button" (click)="onShowClick()" value="Load details">
 
-<div *ngIf="show">
+<div *ngIf="show" (mouseenter)="startRefreshing()" (mouseleave)="stopRefreshing()">
   <h2>{{_lot.Name | uppercase}} Details</h2>
   <div>
     <span>id: </span>{{_lot.Id}}</div>
@@ -26,9 +26,14 @@
     <br>
     <br>
   </h3>
+  <div *ngFor="let photo of _lot.LotPhotos">
+    <img [src]="photo.Path">
+    <br> Description: {{photo.Description}}
+    <br>
+  </div>
   My bid:
   <input type="number" [(ngModel)]="bid">
-  <input type="button" (click) = "confirmBid()" value = "Confirm bid">
+  <input type="button" (click)="confirmBid()" value="Confirm bid">
   <h2>Comments</h2>
   <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark">
   <br>
@@ -37,13 +42,11 @@
   <br>
   <br>
   <input type="button" (click)="addComment()" value="Add comment">
-  <div *ngFor="let photo of _lot.LotPhotos">
-    <img [src]="photo.Path">
-    <br> Description: {{photo.Description}}
-    <br>
-  </div>
+  <br>
+  <br>Page:
+  <input type="number" [(ngModel)]="commentPage">
+  <input type="button" (click)="loadComments()" value="Load comments page">
   <div *ngFor="let comment of _lot.LotComments">
     Message: {{comment.Message}} By: {{comment.User.Name}} {{comment.User.Surname}}
   </div>
-  <input *ngIf="commentPage != -1" type="button" (click)="loadComments()" value="Load more comments">
 </div>

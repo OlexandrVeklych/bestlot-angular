@@ -22,22 +22,10 @@ export class LotSearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  loadLots(event){
+  loadLots(event) {
+    if (!event)
+      event = { page: 1, amount: 10 }
     this.lotService.getLots(event.page, event.amount, this.name, this.category, this.minPrice, this.maxPrice).subscribe(
-      result => { this.searchResult = result },
-      () => { alert("Error") },
-      () => {
-        this.searchResult.forEach(lot => {
-          this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(response => {
-            lot.LotPhotos = [response];
-          })
-        });
-      }
-    );
-  }
-
-  search() {
-    this.lotService.getLots(1, 10, this.name, this.category, this.minPrice, this.maxPrice).subscribe(
       result => { this.searchResult = result },
       () => { alert("Error") },
       () => {

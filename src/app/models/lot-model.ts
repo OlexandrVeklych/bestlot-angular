@@ -13,8 +13,9 @@ export interface LotModel {
   BuyerUser: UserAccountInfoModel;
   Price: number;
   MinStep: number;
-  StartDate: string;
-  SellDate: string;
+  StartDate: Date;
+  SellDate: Date;
   LotPhotos: LotPhotoModel[];
-  LotComments: LotCommentModel[]
+  LotComments: LotCommentModel[];
+  BidPlacer: number;
 }

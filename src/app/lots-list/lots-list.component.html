@@ -2,7 +2,11 @@
   lots-list works!
 </p>
 
+Page:
 <input type="number" [(ngModel)]="page" placeholder="Page">
+<br> Amount:
+<input type="number" [(ngModel)]="amount" placeholder="Amount">
+
 <input type="button" value="Load Lots" (click)="onLoadLotsClick()">
 
 <div *ngIf="_lots && _lots.length > 0" class="horizontal-list">
@@ -13,10 +17,8 @@
         <br> Price: {{lot.Price}}
         <br>
       </h2>
-      <img *ngIf="lot.LotPhotos && lot.LotPhotos[0]" [src]="getPhoto(i,0)">
+      <img *ngIf="lot.LotPhotos && lot.LotPhotos[0]" [src]="lot.LotPhotos[0].Path">
     </div>
   </div>
-  <div class="details">
-    <app-lot-details [lot]="selectedLot"></app-lot-details>
-  </div>
+  <app-lot-details [lot]="selectedLot"></app-lot-details>
 </div>

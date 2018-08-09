@@ -12,35 +12,31 @@ import { LotPhotoRepositoryService } from '../services/lot-photo-repository.serv
 })
 export class LotsListComponent implements OnInit {
 
-  constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private DomSanitizerService: DomSanitizer) { }
+  constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService) { }
 
   page = 1;
-
+  amount = 10;
   shouldLoadAll: boolean = true;
+  _lots: LotModel[] = [];
+  selectedLot: LotModel;
 
   @Input() set lots(lots: LotModel[]) {
     this._lots = lots;
+    this.selectedLot = null;
     if (this.shouldLoadAll)
       this.shouldLoadAll = false;
   }
 
   @Output() shouldLoad = new EventEmitter<{ page: number, amount: number }>();
-
-
-  _lots: LotModel[] = [];
-
-  selectedLot: LotModel;
-
-  isLoading = false;
+  
+  ngOnInit() {
+  }
 
   onLoadLotsClick() {
     this.selectedLot = null;
-    this.isLoading = true;
     if (this.shouldLoadAll)
-      this.lotService.getLots(this.page, 10).subscribe(p => {
-        this.isLoading = false;
-        this._lots = p;
-        this.page++;
+      this.lotService.getLots(this.page, this.amount).subscribe(response => {
+        this._lots = response;
       },
         () => { },//onError
         () => { //onComplete => load photo
@@ -51,19 +47,10 @@ export class LotsListComponent implements OnInit {
           });
         });
     else
-      this.shouldLoad.emit({ page: this.page, amount: 10 });
-  }
-
-  getPhoto(lotNumber: number, photoNumber: number) {
-    return this.DomSanitizerService.bypassSecurityTrustUrl(this._lots[lotNumber].LotPhotos[photoNumber].Path);
+      this.shouldLoad.emit({ page: this.page, amount: this.amount });
   }
 
   onSelect(lot: LotModel) {
     this.selectedLot = lot;
   }
-
-  ngOnInit() {
-    this.DomSanitizerService.bypassSecurityTrustUrl
-  }
-
 }

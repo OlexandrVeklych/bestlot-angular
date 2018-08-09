@@ -2,23 +2,36 @@
   create-lot works!
 </p>
 
-
+Name:
 <input [(ngModel)]="lot.Name" placeholder="Name" type="text">
 <br>
-<br>
+<br>Description:
 <input [(ngModel)]="lot.Description" placeholder="Description" type="text">
 <br>
-<br>
+<br>Category:
 <input [(ngModel)]="lot.Category" placeholder="Category" type="text">
 <br>
-<br>
+<br>Start price:
 <input [(ngModel)]="lot.Price" placeholder="Start price" type="number">
 <br>
+<br>Minimum bid step:
+<input [(ngModel)]="lot.MinStep" placeholder="Minimum bid step" type="number">
 <br>
-<input [(ngModel)]="lot.MinStep" placeholder="Minimum bet step" type="number">
-<br>
-<br>
-<input [(ngModel)]="lot.SellDate" placeholder="Sell date" type="datetime-local">
+<br>Use determined sell date (Lot sells exactly at specified time)
+<input type="checkbox" [checked]="determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
+<br> Use relative sell date (Lot sells if no bid has been made for a certain period of time)
+<input type="checkbox" [checked]="!determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
+
+<div *ngIf="determinedSelldate">Sell date:
+  <input [(ngModel)]="lot.SellDate" placeholder="Sell date" type="datetime-local">
+</div>
+<div *ngIf="!determinedSelldate">
+  Time to place bet:
+  <br>Days:<input type="number" [(ngModel)]="days">
+  <br>Hours:<input type="number" [(ngModel)]="hours">
+  <br>Minutes:<input type="number" [(ngModel)]="minutes">
+  <br>Seconds:<input type="number" [(ngModel)]="seconds">
+</div>
 <br>
 <br>
 <div *ngFor="let i of getPhotosCount(); let j = index">
@@ -27,10 +40,11 @@
     <input type="button" (click)="removePhoto(j)" value="Remove">
   </span>
   <input type="file" (change)="onFileChanged($event, j)" multiple="false" accept="image/*">
+  <br>Photo description:
   <input [(ngModel)]="lot.LotPhotos[j].Description" placeholder="Photo description" type="text">
   <br>
   <br>
 </div>
-<input type="button" (click)="submit()" value="Add lot">
+<input type="button" (click)="addLot()" value="Add lot">
 <br>
 <br>

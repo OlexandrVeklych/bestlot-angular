@@ -20,18 +20,6 @@ export class AppComponent implements OnInit {
     private lotPhotoService: LotPhotoRepositoryService) { }
 
   currentUser: UserAccountInfoModel;
-
-  ngOnInit() {
-    if (sessionStorage.getItem("tokenKey"))
-      this.userService.getCurrentUser().subscribe(
-        response => {
-          this.currentUser = response;
-        },
-        () => {
-          this.logout();
-        });
-  }
-
   Id: number;
 
   lotById: LotModel;
@@ -48,6 +36,17 @@ export class AppComponent implements OnInit {
   login: boolean = false;
   allUsers: boolean = false;
   profile: boolean = false;
+
+  ngOnInit() {
+    if (sessionStorage.getItem("tokenKey"))
+      this.userService.getCurrentUser().subscribe(
+        response => {
+          this.currentUser = response;
+        },
+        () => {
+          this.logout();
+        });
+  }
 
   reloadCurrentUser() {
     this.userService.getCurrentUser().subscribe(
