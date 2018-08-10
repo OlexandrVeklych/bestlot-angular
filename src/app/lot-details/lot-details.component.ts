@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LotModel } from '../models/lot-model';
 import { LotCommentRepositoryService } from '../services/lot-coment-repository.service';
 import { LotCommentRequestModel } from '../models/lot-comment-request-model';
@@ -40,32 +40,58 @@ export class LotDetailsComponent implements OnInit {
     this.loadLot();
   }
 
+  @Output() shouldReload = new EventEmitter<boolean>();
+
   ngOnInit() {
   }
 
-  
+
   startRefreshing() {
-    this.intervalId = setInterval(() => this.refreshBid(), 5000);
+    if (this._lot.BidPlacer == 2)
+      this.intervalId = setInterval(() => this.refreshFullBid(), 5000);
   }
 
   stopRefreshing() {
-    clearInterval(this.intervalId);
+    if (this._lot.BidPlacer == 2)
+      clearInterval(this.intervalId);
   }
 
-  refreshBid() {
+  refreshFullBid() {
     if (this._lot) {
       this.lotService.getBid(this._lot.Id).subscribe(
         (response) => {
           this._lot.Price = response.Price;
+          this._lot.StartDate = response.StartDate;
           this._lot.SellDate = response.SellDate;
           this._lot.BuyerUser = response.BuyerUser;
           this._lot.BuyerUserId = response.BuyerUser.Email;
+          this.bid = this._lot.Price + this._lot.MinStep;
         },
-        () => { alert("Error refreshing price") },
+        () => {
+          alert("Sorry, but this lot is sold");
+          this.shouldReload.emit(true);
+        },
         () => { }
       );
-      this.bid = this._lot.Price + this._lot.MinStep;
     }
+  }
+
+  refreshShortBid() {
+    this.lotService.getBid(this._lot.Id).subscribe(
+      (response) => {
+        this._lot.Price = response.Price;
+        if (response.BuyerUser) {
+          this._lot.BuyerUser = response.BuyerUser;
+          this._lot.BuyerUserId = response.BuyerUser.Email;
+        }
+        this.bid = this._lot.Price + this._lot.MinStep;
+      },
+      () => {
+        alert("Sorry, but this lot is sold");
+        this.shouldReload.emit(true);
+      },
+      () => { }
+    );
   }
 
   onShowClick() {
@@ -89,8 +115,14 @@ export class LotDetailsComponent implements OnInit {
   }
 
   confirmBid() {
-    if (this._lot.SellDate < new Date()) {
+    this.refreshShortBid();
+    var now = new Date();
+    if (now.getTime() > Date.parse(this._lot.SellDate.toString())) {
       alert("Sorry, lot is sold")
+      return;
+    }
+    if (now.getTime() < Date.parse(this._lot.StartDate.toString())) {
+      alert("Sorry, lot is not selling yet")
       return;
     }
     if (this._lot.Price + this._lot.MinStep > this.bid) {
@@ -101,7 +133,10 @@ export class LotDetailsComponent implements OnInit {
       this.lotService.postBid(this._lot.Id, this.bid).subscribe(
         () => { },
         () => { alert("Error") },
-        () => { alert("Success") }
+        () => {
+          this.refreshFullBid();
+          alert("Success");
+        }
       );
   }
 

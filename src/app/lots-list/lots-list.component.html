@@ -20,5 +20,5 @@ Page:
       <img *ngIf="lot.LotPhotos && lot.LotPhotos[0]" [src]="lot.LotPhotos[0].Path">
     </div>
   </div>
-  <app-lot-details [lot]="selectedLot"></app-lot-details>
+  <app-lot-details [lot]="selectedLot" (shouldReload)="reload()"></app-lot-details>
 </div>

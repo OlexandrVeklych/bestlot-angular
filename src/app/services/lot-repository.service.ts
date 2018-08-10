@@ -65,9 +65,9 @@ export class LotRepositoryService {
         });
     }
 
-    getBid(id: number): Observable<{ Price: number, SellDate: Date, BuyerUser: UserAccountInfoModel }> {
+    getBid(id: number): Observable<{ Price: number, StartDate: Date, SellDate: Date, BuyerUser: UserAccountInfoModel }> {
         const currentUrl = `${this.baseUrl}lots/${id}/bid`;
-        return this.http.get<{ Price: number, SellDate: Date, BuyerUser: UserAccountInfoModel }>(currentUrl, {
+        return this.http.get<{ Price: number, StartDate: Date, SellDate: Date, BuyerUser: UserAccountInfoModel }>(currentUrl, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("tokenKey")
             }

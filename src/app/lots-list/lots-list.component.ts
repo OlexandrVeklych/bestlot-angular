@@ -32,6 +32,10 @@ export class LotsListComponent implements OnInit {
   ngOnInit() {
   }
 
+  reload(){
+    this.onLoadLotsClick();
+  }
+
   onLoadLotsClick() {
     this.selectedLot = null;
     if (this.shouldLoadAll)

@@ -18,7 +18,9 @@
     <br>
     <br> Seller user: {{_lot.SellerUser.Name}}
     <br>
-    <br> Start date: {{_lot.StartDate}}
+    <br>
+    <div *ngIf="_lot.BidPlacer == 1 || !_lot.BuyerUserId">Start date: {{_lot.StartDate}}</div>
+    <div *ngIf="_lot.BidPlacer == 2 && _lot.BuyerUserId">Last bid date: {{_lot.StartDate}}</div>
     <br>
     <br> Sell date: {{_lot.SellDate}}
     <br>
@@ -32,8 +34,10 @@
     <br>
   </div>
   My bid:
-  <input type="number" [(ngModel)]="bid">
-  <input type="button" (click)="confirmBid()" value="Confirm bid">
+  <div (mouseenter)="refreshShortBid()">
+    <input type="number" [(ngModel)]="bid">
+    <input type="button" (click)="confirmBid()" value="Confirm bid">
+  </div>
   <h2>Comments</h2>
   <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark">
   <br>

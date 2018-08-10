@@ -17,20 +17,37 @@ Name:
 <br>Minimum bid step:
 <input [(ngModel)]="lot.MinStep" placeholder="Minimum bid step" type="number">
 <br>
-<br>Use determined sell date (Lot sells exactly at specified time)
-<input type="checkbox" [checked]="determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
-<br> Use relative sell date (Lot sells if no bid has been made for a certain period of time)
-<input type="checkbox" [checked]="!determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
+<br>
+<input type="checkbox" [checked]="startNow" (change)="startNow = !startNow" />
+<label (click)="startNow = !startNow">Start selling right away after adding</label>
+<br>
+<input type="checkbox" [checked]="!startNow" (change)="startNow = !startNow" />
+<label (click)="startNow = !startNow">Indicate the start date of the sale</label>
+<br>
+<div *ngIf="!startNow">Start date:
+  <input [(ngModel)]="lot.StartDate" placeholder="Start date" type="datetime-local">
+</div>
+<br>
 
+<input type="checkbox" [checked]="determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
+<label (click)="determinedSelldate = !determinedSelldate">Use determined sell date (Lot sells right at specified time)</label>
+<br>
+<input type="checkbox" [checked]="!determinedSelldate" (change)="determinedSelldate = !determinedSelldate" />
+<label (click)="determinedSelldate = !determinedSelldate">Use relative sell date (Lot sells if no bid has been made for a certain period of time)</label>
+<br>
 <div *ngIf="determinedSelldate">Sell date:
   <input [(ngModel)]="lot.SellDate" placeholder="Sell date" type="datetime-local">
 </div>
 <div *ngIf="!determinedSelldate">
   Time to place bet:
-  <br>Days:<input type="number" [(ngModel)]="days">
-  <br>Hours:<input type="number" [(ngModel)]="hours">
-  <br>Minutes:<input type="number" [(ngModel)]="minutes">
-  <br>Seconds:<input type="number" [(ngModel)]="seconds">
+  <br>Days:
+  <input type="number" [(ngModel)]="days">
+  <br>Hours:
+  <input type="number" [(ngModel)]="hours">
+  <br>Minutes:
+  <input type="number" [(ngModel)]="minutes">
+  <br>Seconds:
+  <input type="number" [(ngModel)]="seconds">
 </div>
 <br>
 <br>

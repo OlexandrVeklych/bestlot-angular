@@ -12,6 +12,7 @@ export class CreateLotComponent implements OnInit {
   constructor(private lotService: LotRepositoryService) { }
 
   determinedSelldate: boolean = true;
+  startNow: boolean = true;
   days: number = 0;
   hours: number = 1;
   minutes: number = 0;
@@ -45,17 +46,28 @@ export class CreateLotComponent implements OnInit {
     this.lot.LotPhotos.forEach(lotPhoto => {
       lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,", "")
     });
+    var now = new Date();
+    console.log(now);
+    if (this.startNow)
+      this.lot.StartDate = now;
+    this.lot.StartDate = new Date(this.lot.StartDate);
+    this.lot.StartDate = new Date(
+      this.lot.StartDate.getFullYear(),
+      this.lot.StartDate.getMonth(),
+      this.lot.StartDate.getDate(),
+      this.lot.StartDate.getHours() + 3,
+      this.lot.StartDate.getMinutes(),
+      this.lot.StartDate.getSeconds()
+    )
     if (!this.determinedSelldate) {
       this.lot.BidPlacer = 2;
-      var now = new Date();
-      this.lot.StartDate = now;
       this.lot.SellDate = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + this.days,
-        now.getHours() + this.hours,
-        now.getMinutes() + this.minutes,
-        now.getSeconds() + this.seconds
+        this.lot.StartDate.getFullYear(),
+        this.lot.StartDate.getMonth(),
+        this.lot.StartDate.getDate() + this.days,
+        this.lot.StartDate.getHours() + this.hours,
+        this.lot.StartDate.getMinutes() + this.minutes,
+        this.lot.StartDate.getSeconds() + this.seconds
       )
     }
     this.lotService.postLot(this.lot).subscribe(
