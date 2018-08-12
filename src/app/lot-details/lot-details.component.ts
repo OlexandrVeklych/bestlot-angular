@@ -45,6 +45,13 @@ export class LotDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  getStartDate(): string {
+    return new Date(this._lot.StartDate).toLocaleString();
+  }
+
+  getSellDate(): string {
+    return new Date(this._lot.SellDate).toLocaleString();
+  }
 
   startRefreshing() {
     if (this._lot.BidPlacer == 2)
@@ -63,8 +70,10 @@ export class LotDetailsComponent implements OnInit {
           this._lot.Price = response.Price;
           this._lot.StartDate = response.StartDate;
           this._lot.SellDate = response.SellDate;
-          this._lot.BuyerUser = response.BuyerUser;
-          this._lot.BuyerUserId = response.BuyerUser.Email;
+          if (response.BuyerUser) {
+            this._lot.BuyerUser = response.BuyerUser;
+            this._lot.BuyerUserId = response.BuyerUser.Email;
+          }
           this.bid = this._lot.Price + this._lot.MinStep;
         },
         () => {
@@ -98,13 +107,26 @@ export class LotDetailsComponent implements OnInit {
     this.show = true;
   }
 
-  loadLot() {
-    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
-      this._lot.LotPhotos = response;
-    });
+  loadLotComments() {
     this.lotCommentService.getLotComments(this._lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
       this._lot.LotComments = response;
     });
+
+  }
+
+  loadLot() {
+    this.loadLotPhotos();
+    this.loadLotUsers();
+    this.loadLotComments();
+  }
+
+  loadLotPhotos() {
+    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
+      this._lot.LotPhotos = response;
+    });
+  }
+
+  loadLotUsers() {
     this.userService.getSellerUser(this._lot.Id).subscribe(response => {
       this._lot.SellerUser = response;
     });
@@ -149,7 +171,9 @@ export class LotDetailsComponent implements OnInit {
   addComment() {
     if (!this.comment.Rating || !this.comment.Rating)
       alert("Enter mark and comment");
-    else
+    else {
       this.lotCommentService.addComment(this._lot.Id, this.comment).subscribe();
+      this.loadComments();
+    }
   }
 }

@@ -1,6 +1,4 @@
-<p>
-  user-info works!
-</p>
+<br>
 
 <h3>Email: {{currentUser.Email}} </h3>
 <br>
@@ -22,7 +20,7 @@
 <br>
 <br>
 <div *ngIf="showLots || showComments" class="horizontal-list">
-  <app-lots-list *ngIf = "showLots" [lots] = "currentUser.Lots"(shouldLoad)="loadLots($event)"></app-lots-list>
+  <app-lots-list *ngIf="showLots" [lots]="currentUser.Lots" (shouldLoad)="loadLots($event)"></app-lots-list>
   <!-- <div *ngIf="showLots" class="vertical-list">
     <div *ngFor="let lot of currentUser.Lots" (click)="selectLot(lot)">
       <h3>

@@ -14,3 +14,9 @@ button {
     border-style: solid;
     border-width: 8px;
 }
+
+.lot-container {
+    margin: 8px;
+    overflow-y: scroll;
+    width: 100%;
+}

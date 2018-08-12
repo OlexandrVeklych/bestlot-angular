@@ -1,6 +1,3 @@
-<p>
-  lot-details works!
-</p>
 <input *ngIf="!show && _lot" type="button" (click)="onShowClick()" value="Load details">
 
 <div *ngIf="show" (mouseenter)="startRefreshing()" (mouseleave)="stopRefreshing()">
@@ -14,15 +11,17 @@
     <br>
     <br> Last price: {{_lot.Price}}
     <br>
-    <br> Last price by: {{_lot.BuyerUserId}}
+    <br>Buyer:
+    <label *ngIf="_lot.BuyerUser"> {{_lot.BuyerUser.Name}} {{_lot.BuyerUser.Surname}}</label>
+    <label *ngIf="!_lot.BuyerUser"> None</label>
     <br>
-    <br> Seller user: {{_lot.SellerUser.Name}}
+    <br> Seller: {{_lot.SellerUser.Name}} {{_lot.SellerUser.Surname}}
     <br>
     <br>
-    <div *ngIf="_lot.BidPlacer == 1 || !_lot.BuyerUserId">Start date: {{_lot.StartDate}}</div>
-    <div *ngIf="_lot.BidPlacer == 2 && _lot.BuyerUserId">Last bid date: {{_lot.StartDate}}</div>
+    <label *ngIf="_lot.BidPlacer == 1 || !_lot.BuyerUserId">Start date: {{getStartDate()}}</label>
+    <label *ngIf="_lot.BidPlacer == 2 && _lot.BuyerUserId">Last bid date: {{getStartDate()}}</label>
     <br>
-    <br> Sell date: {{_lot.SellDate}}
+    <br> Sell date: {{getSellDate()}}
     <br>
     <br> Step for bet: {{_lot.MinStep}}
     <br>
@@ -50,7 +49,9 @@
   <br>Page:
   <input type="number" [(ngModel)]="commentPage">
   <input type="button" (click)="loadComments()" value="Load comments page">
+  <br>
   <div *ngFor="let comment of _lot.LotComments">
     Message: {{comment.Message}} By: {{comment.User.Name}} {{comment.User.Surname}}
   </div>
+  <br>
 </div>

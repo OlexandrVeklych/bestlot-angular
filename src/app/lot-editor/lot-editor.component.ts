@@ -15,14 +15,10 @@ export class LotEditorComponent implements OnInit {
 
   constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private userService: UserRepositoryService) { }
 
-  photosCount: number = 1;
   show: boolean = false;
   _lot: LotModel;
-  lotPhotos: LotPhotoRequestModel[] = [{
-    Path: "",
-    Description: ""
-  }];
-  
+  lotPhotos: LotPhotoRequestModel[] = [];
+
   ngOnInit() {
   }
 
@@ -38,6 +34,20 @@ export class LotEditorComponent implements OnInit {
 
   @Output() shouldReload = new EventEmitter<boolean>();
 
+  getStartDate(): string {
+    return new Date(this._lot.StartDate).toLocaleString();
+  }
+
+  getSellDate(): string {
+    return new Date(this._lot.SellDate).toLocaleString();
+  }
+
+  canChangeStartDate(): boolean {
+    return !(this._lot.BuyerUserId
+      || this._lot.BidPlacer != 1
+      || new Date().getTime() > new Date(this._lot.StartDate).getTime());
+  }
+
   loadLotPhotos() {
     this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
       this._lot.LotPhotos = response;
@@ -45,7 +55,30 @@ export class LotEditorComponent implements OnInit {
   }
 
   getPhotosCount() {
-    return new Array(this.photosCount);
+    return new Array(this.lotPhotos.length + 1);
+  }
+
+  removePhoto(i: number) {
+    this.lotPhotos.splice(i, 1);
+    this.replaceInputElem(i);
+  }
+
+  replaceInputElem(i: number) {
+    var inputElem = <HTMLInputElement>document.getElementById("input" + i);
+    var nextInputElem = <HTMLInputElement>document.getElementById("input" + (i + 1));
+    console.log(inputElem);
+    console.log(nextInputElem);
+    console.log("-----");
+
+    if (!nextInputElem) {
+      inputElem.value = "";
+      console.log(this.lotPhotos);
+      return;
+    }
+
+    inputElem.files = nextInputElem.files;
+    inputElem.textContent = nextInputElem.textContent;
+    this.replaceInputElem(i + 1);
   }
 
   loadLotUsers() {
@@ -69,26 +102,20 @@ export class LotEditorComponent implements OnInit {
       () => { alert("Success") });
   }
 
-  removePhoto(position: number) {
-    for (var i = position; i < this.lotPhotos.length; i++) {
-      this.lotPhotos[i] = this.lotPhotos[i + 1];
-    }
-    this.lotPhotos.pop;
-    this.photosCount--;
-  }
-
-  onFileChanged(event, j) {
-    this.photosCount = j + 2;
+  onFileChanged(event, i: number) {
+    if (!event.target.files[0])
+      return;
+    console.log(event);
     var myReader: FileReader = new FileReader();
-
-    myReader.onloadend = (e) => {
-      this.lotPhotos[j].Path = myReader.result.toString();
-    }
-    this.lotPhotos.push({
+    var lotPhoto: LotPhotoRequestModel = {
       Path: "",
       Description: ""
-    });
+    }
+    myReader.onloadend = (e) => {
+      lotPhoto.Path = myReader.result.toString();
+    }
     myReader.readAsDataURL(event.target.files[0]);
+    this.lotPhotos[i] = lotPhoto;
   }
 
   deletePhoto(photoId: number) {
@@ -115,8 +142,6 @@ export class LotEditorComponent implements OnInit {
   }
 
   loadPhotos() {
-    this.lotPhotos.pop();
-    this.photosCount--;
     this.lotPhotos.forEach(lotPhoto => {
       lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,", "")
     });
@@ -130,11 +155,8 @@ export class LotEditorComponent implements OnInit {
       },
       () => {
         alert("Success");
-        this.lotPhotos = [{
-          Path: "",
-          Description: ""
-        }];
-        this.photosCount = 1;
+        for (var i = 0; i <= this.lotPhotos.length; i++)
+          this.removePhoto(0);
         this.loadLotPhotos();
       }
     );

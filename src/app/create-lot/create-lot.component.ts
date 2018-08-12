@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LotRequestModel } from '../models/lot-request-model';
 import { LotRepositoryService } from '../services/lot-repository.service';
+import { LotPhotoRequestModel } from '../models/lot-photo-request-model';
 
 @Component({
   selector: 'app-create-lot',
@@ -17,7 +18,6 @@ export class CreateLotComponent implements OnInit {
   hours: number = 1;
   minutes: number = 0;
   seconds: number = 0;
-  photosCount = 1;
   lot: LotRequestModel = {
     Name: "",
     Description: "",
@@ -26,10 +26,7 @@ export class CreateLotComponent implements OnInit {
     SellDate: null,
     MinStep: 0,
     Price: 0,
-    LotPhotos: [{
-      Path: "",
-      Description: ""
-    }],
+    LotPhotos: [],
     BidPlacer: 1
   };
 
@@ -37,12 +34,33 @@ export class CreateLotComponent implements OnInit {
   }
 
   getPhotosCount() {
-    return new Array(this.photosCount);
+    return new Array(this.lot.LotPhotos.length + 1);
+  }
+
+  removePhoto(i: number) {
+    this.lot.LotPhotos.splice(i, 1);
+    this.replaceInputElem(i);
+  }
+
+  replaceInputElem(i: number) {
+    var inputElem = <HTMLInputElement>document.getElementById("input" + i);
+    var nextInputElem = <HTMLInputElement>document.getElementById("input" + (i + 1));
+    console.log(inputElem);
+    console.log(nextInputElem);
+    console.log("-----");
+
+    if (!nextInputElem) {
+      inputElem.value = "";
+      console.log(this.lot.LotPhotos);
+      return;
+    }
+
+    inputElem.files = nextInputElem.files;
+    inputElem.textContent = nextInputElem.textContent;
+    this.replaceInputElem(i + 1);
   }
 
   addLot() {
-    this.lot.LotPhotos.pop();
-    this.photosCount--;
     this.lot.LotPhotos.forEach(lotPhoto => {
       lotPhoto.Path = lotPhoto.Path.replace("data:image/jpeg;base64,", "")
     });
@@ -80,36 +98,26 @@ export class CreateLotComponent implements OnInit {
       },
       () => {
         alert("Success");
-        this.lot.LotPhotos.forEach(lotPhoto => {
-          lotPhoto.Path = lotPhoto.Path = "data:image/jpeg;base64," + lotPhoto.Path;
-        });
+        for (var i = 0; i <= this.lot.LotPhotos.length; i++)
+          this.removePhoto(0);
       }
     );
-    alert('request sent');
   }
 
-  removePhoto(position: number) {
-    for (var i = position; i < this.lot.LotPhotos.length; i++) {
-      this.lot.LotPhotos[i] = this.lot.LotPhotos[i + 1];
-    }
-    this.lot.LotPhotos.pop;
-    this.photosCount--;
-  }
-
-  onFileChanged(event, j) {
+  onFileChanged(event, i: number) {
+    if (!event.target.files[0])
+      return;
     console.log(event);
-    this.photosCount = j + 2;
     var myReader: FileReader = new FileReader();
-
-    myReader.onloadend = (e) => {
-      this.lot.LotPhotos[j].Path = myReader.result.toString();
-    }
-    this.lot.LotPhotos.push({
+    var lotPhoto: LotPhotoRequestModel = {
       Path: "",
       Description: ""
-    });
+    }
+    myReader.onloadend = (e) => {
+      lotPhoto.Path = myReader.result.toString();
+    }
     myReader.readAsDataURL(event.target.files[0]);
-    console.log(this.lot.LotPhotos[j]);
+    this.lot.LotPhotos[i] = lotPhoto;
   }
 }
 

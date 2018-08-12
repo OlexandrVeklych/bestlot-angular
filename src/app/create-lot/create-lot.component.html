@@ -1,8 +1,4 @@
-<p>
-  create-lot works!
-</p>
-
-Name:
+<br> Name:
 <input [(ngModel)]="lot.Name" placeholder="Name" type="text">
 <br>
 <br>Description:
@@ -51,17 +47,17 @@ Name:
 </div>
 <br>
 <br>
-<div *ngFor="let i of getPhotosCount(); let j = index">
-  <span *ngIf="lot.LotPhotos[j].Path">
-    <img [src]="lot.LotPhotos[j].Path">
-    <input type="button" (click)="removePhoto(j)" value="Remove">
+<div *ngFor="let item of getPhotosCount(); let i = index">
+  <span *ngIf="lot.LotPhotos[i]">
+    <img [src]="lot.LotPhotos[i].Path">
+    <input type="button" (click)="removePhoto(i)" value="Remove">
+    <br>Photo description:
+    <input [(ngModel)]="lot.LotPhotos[i].Description" placeholder="Photo description" type="text">
   </span>
-  <input type="file" (change)="onFileChanged($event, j)" multiple="false" accept="image/*">
-  <br>Photo description:
-  <input [(ngModel)]="lot.LotPhotos[j].Description" placeholder="Photo description" type="text">
-  <br>
-  <br>
+  <input type="file" (change)="onFileChanged($event, i)" accept="image/*" id="input{{i}}">
 </div>
+<br>
+<br>
 <input type="button" (click)="addLot()" value="Add lot">
 <br>
 <br>

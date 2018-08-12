@@ -27,7 +27,7 @@
 <app-register-user *ngIf="register"></app-register-user>
 <app-login-user *ngIf="login" (shouldReload)="reloadCurrentUser()"></app-login-user>
 <app-users-list *ngIf="allUsers"></app-users-list>
-<app-lot-details *ngIf="oneLot" [lot]="lotById"></app-lot-details>
+<app-lot-details *ngIf="oneLot" class="lot-container" [lot]="lotById"></app-lot-details>
 <app-lots-list *ngIf="searchLots" [lots]="lotsByName" (shouldLoad)="loadLots($event)"></app-lots-list>
 <app-user-profile *ngIf="profile" [currentUser]="currentUser"></app-user-profile>
 <app-lot-search *ngIf="detailedSearch"></app-lot-search>

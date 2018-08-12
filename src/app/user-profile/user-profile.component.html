@@ -1,6 +1,4 @@
-<p>
-  user-profile works!
-</p>
+<br>
 
 <h3>Email: {{currentUser.Email}} </h3>
 
@@ -30,8 +28,7 @@
       </h3>
     </div>
   </div>
-  <div *ngIf="selectedLot">
-    <app-lot-editor [lot]="selectedLot" (shouldReload)="reload($event)"></app-lot-editor>
-    <br>
-  </div>
+  <app-lot-editor *ngIf="selectedLot" class="lot-container" [lot]="selectedLot" (shouldReload)="reload($event) "></app-lot-editor>
+  <br>
+  <br>
 </div>

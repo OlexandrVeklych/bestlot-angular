@@ -1,8 +1,4 @@
-<p>
-  lots-list works!
-</p>
-
-Page:
+<br> Page:
 <input type="number" [(ngModel)]="page" placeholder="Page">
 <br> Amount:
 <input type="number" [(ngModel)]="amount" placeholder="Amount">
@@ -20,5 +16,5 @@ Page:
       <img *ngIf="lot.LotPhotos && lot.LotPhotos[0]" [src]="lot.LotPhotos[0].Path">
     </div>
   </div>
-  <app-lot-details [lot]="selectedLot" (shouldReload)="reload()"></app-lot-details>
+  <app-lot-details class="lot-container" [lot]="selectedLot" (shouldReload)="reload()"></app-lot-details>
 </div>
