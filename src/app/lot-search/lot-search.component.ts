@@ -10,7 +10,8 @@ import { LotPhotoRepositoryService } from '../services/lot-photo-repository.serv
 })
 export class LotSearchComponent implements OnInit {
 
-  constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService) { }
+  constructor(private lotService: LotRepositoryService,
+    private lotPhotoService: LotPhotoRepositoryService) { }
 
   name: string = null;
   category: string = null;
@@ -27,7 +28,13 @@ export class LotSearchComponent implements OnInit {
       event = { page: 1, amount: 10 }
     this.lotService.getLots(event.page, event.amount, this.name, this.category, this.minPrice, this.maxPrice).subscribe(
       result => { this.searchResult = result },
-      () => { alert("Error") },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => {
         this.searchResult.forEach(lot => {
           this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(response => {

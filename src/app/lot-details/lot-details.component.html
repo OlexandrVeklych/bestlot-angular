@@ -18,8 +18,8 @@
     <br> Seller: {{_lot.SellerUser.Name}} {{_lot.SellerUser.Surname}}
     <br>
     <br>
-    <label *ngIf="_lot.BidPlacer == 1 || !_lot.BuyerUserId">Start date: {{getStartDate()}}</label>
-    <label *ngIf="_lot.BidPlacer == 2 && _lot.BuyerUserId">Last bid date: {{getStartDate()}}</label>
+    <label *ngIf="_lot.BidPlacer == 'Determined' || !_lot.BuyerUserId">Start date: {{getStartDate()}}</label>
+    <label *ngIf="_lot.BidPlacer == 'Relative' && _lot.BuyerUserId">Last bid date: {{getStartDate()}}</label>
     <br>
     <br> Sell date: {{getSellDate()}}
     <br>
@@ -32,6 +32,9 @@
     <br> Description: {{photo.Description}}
     <br>
   </div>
+  <h1>
+    Time left: {{timeToSell}}
+  </h1>
   My bid:
   <div (mouseenter)="refreshShortBid()">
     <input type="number" [(ngModel)]="bid">
@@ -51,7 +54,9 @@
   <input type="button" (click)="loadComments()" value="Load comments page">
   <br>
   <div *ngFor="let comment of _lot.LotComments">
-    Message: {{comment.Message}} By: {{comment.User.Name}} {{comment.User.Surname}}
+    Rating: {{comment.Rating}}
+    <br>Message: {{comment.Message}}
+    <br>Left by: {{comment.User.Name}} {{comment.User.Surname}}
   </div>
   <br>
 </div>

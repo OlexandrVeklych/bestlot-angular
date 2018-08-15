@@ -24,10 +24,12 @@ export class LotDetailsComponent implements OnInit {
   _lot: LotModel = null;
   bid: number = 0;
   intervalId;
+  timeToSellId;
   comment: LotCommentRequestModel = {
     Message: null,
     Rating: null,
   }
+  timeToSell: string;
 
   @Input()
   set lot(lot: LotModel) {
@@ -53,14 +55,25 @@ export class LotDetailsComponent implements OnInit {
     return new Date(this._lot.SellDate).toLocaleString();
   }
 
+  calcTimeToSell() {
+    var t = Date.parse(this._lot.SellDate.toString()) - Date.parse(new Date().toString());
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+    this.timeToSell = days == 1 ? `1 day, ${hours}:${minutes}:${seconds}` : `${days} days, ${hours}:${minutes}:${seconds}`;
+  }
+
   startRefreshing() {
-    if (this._lot.BidPlacer == 2)
+    if (this._lot.BidPlacer == 'Relative')
       this.intervalId = setInterval(() => this.refreshFullBid(), 5000);
+    this.timeToSellId = setInterval(() => this.calcTimeToSell(), 1000);
   }
 
   stopRefreshing() {
-    if (this._lot.BidPlacer == 2)
+    if (this._lot.BidPlacer == 'Relative')
       clearInterval(this.intervalId);
+    clearInterval(this.timeToSellId);
   }
 
   refreshFullBid() {
@@ -95,8 +108,12 @@ export class LotDetailsComponent implements OnInit {
         }
         this.bid = this._lot.Price + this._lot.MinStep;
       },
-      () => {
-        alert("Sorry, but this lot is sold");
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert("Sorry, but this lot is sold");
+        else
+          alert(response.error.Message);
         this.shouldReload.emit(true);
       },
       () => { }
@@ -108,9 +125,17 @@ export class LotDetailsComponent implements OnInit {
   }
 
   loadLotComments() {
-    this.lotCommentService.getLotComments(this._lot.Id, this.commentPage, this.commentAmount).subscribe(response => {
-      this._lot.LotComments = response;
-    });
+    this.lotCommentService.getLotComments(this._lot.Id, this.commentPage, this.commentAmount).subscribe(
+      response => {
+        this._lot.LotComments = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
 
   }
 
@@ -121,19 +146,44 @@ export class LotDetailsComponent implements OnInit {
   }
 
   loadLotPhotos() {
-    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
-      this._lot.LotPhotos = response;
-    });
+    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(
+      response => {
+        this._lot.LotPhotos = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
   }
 
   loadLotUsers() {
-    this.userService.getSellerUser(this._lot.Id).subscribe(response => {
-      this._lot.SellerUser = response;
-    });
-    this.userService.getBuyerUser(this._lot.Id).subscribe(response => {
-      if (response)
-        this._lot.BuyerUser = response;
-    });
+    this.userService.getSellerUser(this._lot.Id).subscribe(
+      response => {
+        this._lot.SellerUser = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
+      () => { this.show = true });
+    this.userService.getBuyerUser(this._lot.Id).subscribe(
+      response => {
+        if (response)
+          this._lot.BuyerUser = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
   }
 
   confirmBid() {
@@ -154,7 +204,13 @@ export class LotDetailsComponent implements OnInit {
     if (confirm("Place bid of " + this.bid + " for " + this._lot.Name + "?"))
       this.lotService.postBid(this._lot.Id, this.bid).subscribe(
         () => { },
-        () => { alert("Error") },
+        response => {
+          console.log(response)
+          if (response.error.status == 404)
+            alert(response.error);
+          else
+            alert(response.error.Message);
+        },
         () => {
           this.refreshFullBid();
           alert("Success");
@@ -172,7 +228,22 @@ export class LotDetailsComponent implements OnInit {
     if (!this.comment.Rating || !this.comment.Rating)
       alert("Enter mark and comment");
     else {
-      this.lotCommentService.addComment(this._lot.Id, this.comment).subscribe();
+      this.lotCommentService.addComment(this._lot.Id, this.comment).subscribe(
+        () => { },
+        response => {
+          console.log(response)
+          if (response.error.status == 404)
+            alert(response.error);
+          else
+            alert(response.error.Message)
+        },
+        () => {
+          this.comment = {
+            Message: null,
+            Rating: null,
+          }
+        }
+      );
       this.loadComments();
     }
   }

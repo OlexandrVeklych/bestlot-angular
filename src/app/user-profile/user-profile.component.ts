@@ -12,7 +12,9 @@ import { LotModel } from '../models/lot-model';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private userService: UserRepositoryService, private lotService: LotRepositoryService, private accountService: AccountManagementService) { }
+  constructor(private userService: UserRepositoryService,
+    private lotService: LotRepositoryService,
+    private accountService: AccountManagementService) { }
 
   @Input() currentUser: UserAccountInfoModel;
 
@@ -26,25 +28,39 @@ export class UserProfileComponent implements OnInit {
   }
 
   reload(shouldReload: boolean) {
-    if (shouldReload){
+    if (shouldReload) {
       this.loadLots();
       this.selectedLot = null;
     }
   }
 
   putUser() {
-    this.userService.putUser(this.currentUser.Email, this.currentUser).subscribe();
+    this.userService.putUser(this.currentUser.Email, this.currentUser).subscribe(
+      () => { },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
+      () => { alert("Profile updated") });
   }
 
   deleteLot(lotId: number) {
     this.lotService.deleteLot(lotId).subscribe(
       () => { },
-      () => { alert("Error") },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => {
         alert("Success");
         this.loadLots();
       });
-    alert("Delete request sent");
   }
 
   deleteCurrentUser() {
@@ -55,7 +71,13 @@ export class UserProfileComponent implements OnInit {
         () => {
           this.accountService.deleteAccount(this.currentUser.Email).subscribe(
             () => { },
-            () => { alert("Error when deleting") },
+            response => {
+              console.log(response)
+              if (response.error.status == 404)
+                alert(response.error);
+              else
+                alert(response.error.Message);
+            },
             () => {
               alert("Deleted successfully");
               this.accountService.logout();

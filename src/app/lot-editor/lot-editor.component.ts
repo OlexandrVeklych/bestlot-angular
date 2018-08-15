@@ -13,7 +13,9 @@ import { UserRepositoryService } from '../services/user-repository.service';
 })
 export class LotEditorComponent implements OnInit {
 
-  constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService, private userService: UserRepositoryService) { }
+  constructor(private lotService: LotRepositoryService,
+    private lotPhotoService: LotPhotoRepositoryService,
+    private userService: UserRepositoryService) { }
 
   show: boolean = false;
   _lot: LotModel;
@@ -44,14 +46,22 @@ export class LotEditorComponent implements OnInit {
 
   canChangeStartDate(): boolean {
     return !(this._lot.BuyerUserId
-      || this._lot.BidPlacer != 1
+      || this._lot.BidPlacer != "Relative"
       || new Date().getTime() > new Date(this._lot.StartDate).getTime());
   }
 
   loadLotPhotos() {
-    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(response => {
-      this._lot.LotPhotos = response;
-    });
+    this.lotPhotoService.getLotPhotos(this._lot.Id).subscribe(
+      response => {
+        this._lot.LotPhotos = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
   }
 
   getPhotosCount() {
@@ -82,13 +92,30 @@ export class LotEditorComponent implements OnInit {
   }
 
   loadLotUsers() {
-    this.userService.getSellerUser(this._lot.Id).subscribe(response => {
-      this._lot.SellerUser = response;
-    });
-    this.userService.getBuyerUser(this._lot.Id).subscribe(response => {
-      if (response)
-        this._lot.BuyerUser = response;
-    });
+    this.userService.getSellerUser(this._lot.Id).subscribe(
+      response => {
+        this._lot.SellerUser = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
+      () => { this.show = true });
+    this.userService.getBuyerUser(this._lot.Id).subscribe(
+      response => {
+        if (response)
+          this._lot.BuyerUser = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
   }
 
   onShowClick() {
@@ -98,7 +125,13 @@ export class LotEditorComponent implements OnInit {
   updateLot() {
     this.lotService.putLot(this._lot.Id, this._lot).subscribe(
       () => { },
-      () => { alert("Error") },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => { alert("Success") });
   }
 
@@ -121,7 +154,13 @@ export class LotEditorComponent implements OnInit {
   deletePhoto(photoId: number) {
     this.lotPhotoService.deleteLotPhoto(photoId).subscribe(
       () => { },
-      () => { alert("Error"); },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => {
         alert("Success");
         this.loadLotPhotos();
@@ -131,7 +170,13 @@ export class LotEditorComponent implements OnInit {
   deleteLot() {
     this.lotService.deleteLot(this._lot.Id).subscribe(
       () => { },
-      () => { alert("Error"); },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => {
         alert("Success");
         this.show = false;
@@ -147,8 +192,12 @@ export class LotEditorComponent implements OnInit {
     });
     this.lotPhotoService.addPhotos(this._lot.Id, this.lotPhotos).subscribe(
       () => { },
-      () => {
-        alert("Error");
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
         this.lotPhotos.forEach(lotPhoto => {
           lotPhoto.Path = lotPhoto.Path = "data:image/jpeg;base64," + lotPhoto.Path;
         });

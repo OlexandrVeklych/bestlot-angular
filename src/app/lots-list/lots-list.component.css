@@ -4,6 +4,7 @@
 }
 
 .vertical-list{
+    word-wrap: break-word;
     width: 25%;
     min-width: 300px;
     flex-grow: 0;
@@ -30,4 +31,3 @@ span {
 img {
     width: 100%;
 }
-

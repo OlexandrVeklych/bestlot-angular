@@ -88,9 +88,17 @@ export class AppComponent implements OnInit {
     this.register = false;
     this.login = false;
     this.allUsers = false;
-    this.lotService.getLot(this.Id).subscribe(response => {
-      this.lotById = response;
-    });
+    this.lotService.getLot(this.Id).subscribe(
+      response => {
+        this.lotById = response;
+      },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      });
     this.profile = false;
     this.detailedSearch = false;
   }

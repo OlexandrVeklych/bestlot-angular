@@ -27,8 +27,25 @@ export class RegisterUserComponent implements OnInit {
   register() {
     this.accountService.register(this.user).subscribe(
       () => { },
-      (response) => { alert("Error - " + response.Message) },
-      () => { alert("Success, now you can login") }
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
+      () => {
+        this.user = {
+          Email: '',
+          Password: '',
+          ConfirmPassword: '',
+          Name: '',
+          Surname: '',
+          TelephoneNumber: '',
+          Role: '',
+        };
+        alert("Success, now you can login")
+      }
     );
   }
 }

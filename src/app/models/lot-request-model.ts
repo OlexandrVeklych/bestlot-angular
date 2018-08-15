@@ -9,5 +9,5 @@ export interface LotRequestModel {
   StartDate: Date;
   SellDate: Date;
   LotPhotos: LotPhotoRequestModel[];
-  BidPlacer: number;
+  BidPlacer: string;
 }

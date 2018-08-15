@@ -4,8 +4,9 @@
 }
 
 .vertical-list{
-    width: 25%;
-    min-width: 300px;
+    word-wrap: break-word;
+    width: 26%;
+    min-width: 320px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;

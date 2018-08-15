@@ -12,7 +12,8 @@ import { LotPhotoRepositoryService } from '../services/lot-photo-repository.serv
 })
 export class LotsListComponent implements OnInit {
 
-  constructor(private lotService: LotRepositoryService, private lotPhotoService: LotPhotoRepositoryService) { }
+  constructor(private lotService: LotRepositoryService,
+    private lotPhotoService: LotPhotoRepositoryService) { }
 
   page = 1;
   amount = 10;
@@ -28,11 +29,11 @@ export class LotsListComponent implements OnInit {
   }
 
   @Output() shouldLoad = new EventEmitter<{ page: number, amount: number }>();
-  
+
   ngOnInit() {
   }
 
-  reload(){
+  reload() {
     this.onLoadLotsClick();
   }
 
@@ -45,9 +46,17 @@ export class LotsListComponent implements OnInit {
         () => { },//onError
         () => { //onComplete => load photo
           this._lots.forEach(lot => {
-            this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(response => {
-              lot.LotPhotos = [response];
-            })
+            this.lotPhotoService.getLotPhotoByNumber(lot.Id, 0).subscribe(
+              response => {
+                lot.LotPhotos = [response];
+              },
+              response => {
+                console.log(response)
+                if (response.error.status == 404)
+                  alert(response.error);
+                else
+                  alert(response.error.Message);
+              });
           });
         });
     else

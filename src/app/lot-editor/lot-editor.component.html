@@ -26,8 +26,8 @@
     <input *ngIf="!canChangeStartDate()" placeholder="{{getStartDate()}}" disabled>
     <br>
     <br> Sell date:
-    <input *ngIf="!_lot.BuyerUserId && _lot.BidPlacer != 2" type="datetime-local" [(ngModel)]="_lot.SellDate">
-    <input *ngIf="_lot.BuyerUserId || _lot.BidPlacer == 2" placeholder="{{getSellDate()}}" disabled>
+    <input *ngIf="!_lot.BuyerUserId && _lot.BidPlacer != 'Relative'" type="datetime-local" [(ngModel)]="_lot.SellDate">
+    <input *ngIf="_lot.BuyerUserId || _lot.BidPlacer == 'Relative'" placeholder="{{getSellDate()}}" disabled>
     <br>
     <br> Step for bet:
     <input *ngIf="!_lot.BuyerUserId" type="number" [(ngModel)]="_lot.MinStep">

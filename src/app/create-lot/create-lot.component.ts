@@ -18,6 +18,7 @@ export class CreateLotComponent implements OnInit {
   hours: number = 1;
   minutes: number = 0;
   seconds: number = 0;
+
   lot: LotRequestModel = {
     Name: "",
     Description: "",
@@ -27,7 +28,7 @@ export class CreateLotComponent implements OnInit {
     MinStep: 0,
     Price: 0,
     LotPhotos: [],
-    BidPlacer: 1
+    BidPlacer: "Determined"
   };
 
   ngOnInit() {
@@ -78,7 +79,7 @@ export class CreateLotComponent implements OnInit {
       this.lot.StartDate.getSeconds()
     )
     if (!this.determinedSelldate) {
-      this.lot.BidPlacer = 2;
+      this.lot.BidPlacer = "Relative";
       this.lot.SellDate = new Date(
         this.lot.StartDate.getFullYear(),
         this.lot.StartDate.getMonth(),
@@ -90,8 +91,12 @@ export class CreateLotComponent implements OnInit {
     }
     this.lotService.postLot(this.lot).subscribe(
       () => { },
-      () => {
-        alert("Error");
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
         this.lot.LotPhotos.forEach(lotPhoto => {
           lotPhoto.Path = lotPhoto.Path = "data:image/jpeg;base64," + lotPhoto.Path;
         });
@@ -100,6 +105,17 @@ export class CreateLotComponent implements OnInit {
         alert("Success");
         for (var i = 0; i <= this.lot.LotPhotos.length; i++)
           this.removePhoto(0);
+        this.lot = {
+          Name: "",
+          Description: "",
+          Category: "",
+          StartDate: null,
+          SellDate: null,
+          MinStep: 0,
+          Price: 0,
+          LotPhotos: [],
+          BidPlacer: "Determined"
+        };
       }
     );
   }

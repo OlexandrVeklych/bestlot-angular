@@ -14,27 +14,33 @@ export class UsersListComponent implements OnInit {
   users: UserAccountInfoModel[] = []
 
   page: number = 1;
-
+  amount: number = 10;
   ngOnInit() {
   }
 
   selectedUser: UserAccountInfoModel;
 
   reload(shouldReload: boolean) {
-    if (shouldReload){
+    if (shouldReload) {
       this.loadUsers();
       this.selectedUser = null;
     }
   }
 
-  onSelect(user: UserAccountInfoModel){
+  onSelect(user: UserAccountInfoModel) {
     this.selectedUser = user;
   }
 
-  loadUsers(){
-    this.userService.getUsers(this.page, 10).subscribe(
+  loadUsers() {
+    this.userService.getUsers(this.page, this.amount).subscribe(
       result => { this.users = result },
-      () => { alert("Error") },
+      response => {
+        console.log(response)
+        if (response.error.status == 404)
+          alert(response.error);
+        else
+          alert(response.error.Message);
+      },
       () => { }
     );
   }

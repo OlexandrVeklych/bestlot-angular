@@ -19,14 +19,20 @@ export class LoginUserComponent implements OnInit {
   }
 
   login() {
-    this.service.login(this.email, this.password).subscribe(response => {
-      sessionStorage.setItem("tokenKey", response.access_token)
-    },
-      () => {
-        alert("Wrong password or email")
+    this.service.login(this.email, this.password).subscribe(
+      response => {
+        sessionStorage.setItem("tokenKey", response.access_token)
+      },
+      response => {
+        console.log(response)
+        if (response.error.error == "invalid_grant")
+          alert("Wrong email or password");
+        else alert(response.error.Message);
       },
       () => {
         alert("Welcome");
+        this.email = null;
+        this.password = null;
         this.shouldReload.emit(true);
       });
   }

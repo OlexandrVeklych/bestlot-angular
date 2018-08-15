@@ -1,15 +1,11 @@
+<h3>Email: {{_currentUser.Email}} </h3>
+<br> Name: {{_currentUser.Name}}
 <br>
-
-<h3>Email: {{currentUser.Email}} </h3>
+<br> Surname: {{_currentUser.Surname}}
 <br>
-<br> Name: {{currentUser.Name}}
-<br>
-<br> Surname: {{currentUser.Surname}}
-<br>
-<br> Telephone: {{currentUser.Telephone}}
+<br> Telephone: {{_currentUser.TelephoneNumber}}
 <br>
 <br>
-
 <input type="button" (click)="loadLots()" value="Load this user lots">
 <br>
 <br>
@@ -19,26 +15,12 @@
 <input type="button" (click)="deleteUser()" value="Delete this user">
 <br>
 <br>
-<div *ngIf="showLots || showComments" class="horizontal-list">
-  <app-lots-list *ngIf="showLots" [lots]="currentUser.Lots" (shouldLoad)="loadLots($event)"></app-lots-list>
-  <!-- <div *ngIf="showLots" class="vertical-list">
-    <div *ngFor="let lot of currentUser.Lots" (click)="selectLot(lot)">
-      <h3>
-        {{lot.Name}}
-      </h3>
-    </div>
+<app-lots-list *ngIf="showLots" [lots]="_currentUser.Lots" (shouldLoad)="loadLots($event)"></app-lots-list>
+<ng-container *ngIf="showComments" class="vertical-list">
+  <div *ngFor="let comment of _currentUser.LotComments">
+    <h2>Comment</h2>
+    <h3>Message: {{comment.Message}}
+      <br>Lot id: {{comment.LotId}}
+    </h3>
   </div>
-  <div *ngIf="selectedLot">
-    <app-lot-details [lot]="selectedLot"></app-lot-details>
-    <br>
-  </div> -->
-
-  <div *ngIf="showComments" class="vertical-list">
-    <div *ngFor="let comment of currentUser.LotComments">
-      <h3>
-        {{comment.Message}}
-        <br>Lot id: {{comment.LotId}}
-      </h3>
-    </div>
-  </div>
-</div>
+</ng-container>

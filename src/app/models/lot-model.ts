@@ -17,5 +17,5 @@ export interface LotModel {
   SellDate: Date;
   LotPhotos: LotPhotoModel[];
   LotComments: LotCommentModel[];
-  BidPlacer: number;
+  BidPlacer: string;
 }
