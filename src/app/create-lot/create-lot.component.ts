@@ -25,8 +25,9 @@ export class CreateLotComponent implements OnInit {
     Category: "",
     StartDate: null,
     SellDate: null,
-    MinStep: 0,
     Price: 0,
+    Currency: "",
+    MinStep: 0,
     LotPhotos: [],
     BidPlacer: "Determined"
   };
@@ -111,8 +112,9 @@ export class CreateLotComponent implements OnInit {
           Category: "",
           StartDate: null,
           SellDate: null,
-          MinStep: 0,
           Price: 0,
+          Currency: "",
+          MinStep: 0,
           LotPhotos: [],
           BidPlacer: "Determined"
         };

@@ -13,9 +13,12 @@
     <br>
     <br> Last price:
     <input *ngIf="!_lot.BuyerUserId" type="number" [(ngModel)]="_lot.Price">
-    <input *ngIf="_lot.BuyerUserId" placeholder="Can`t change" disabled>
+    <input *ngIf="_lot.BuyerUserId" placeholder="{{_lot.Price}}" disabled>
     <br>
-    <br>Buyer:
+    <br> Currency:
+    <input *ngIf="!_lot.BuyerUserId" type="number" [(ngModel)]="_lot.Currency">
+    <input *ngIf="_lot.BuyerUserId" placeholder="{{_lot.Currency}}" disabled>
+    <br> Buyer:
     <label *ngIf="_lot.BuyerUser"> {{_lot.BuyerUser.Name}} {{_lot.BuyerUser.Surname}}</label>
     <label *ngIf="!_lot.BuyerUser"> None</label>
     <br>

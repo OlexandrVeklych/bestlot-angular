@@ -187,5 +187,6 @@ export class AppComponent implements OnInit {
   logout() {
     this.currentUser = null;
     this.accountService.logout();
+    document.location.reload();
   }
 }

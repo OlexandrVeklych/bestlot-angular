@@ -22,6 +22,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   selectedLot: LotModel;
+  showArchiveLots: boolean = false;
 
   selectLot(lot: LotModel) {
     this.selectedLot = lot;
