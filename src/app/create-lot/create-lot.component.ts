@@ -47,9 +47,6 @@ export class CreateLotComponent implements OnInit {
   replaceInputElem(i: number) {
     var inputElem = <HTMLInputElement>document.getElementById("input" + i);
     var nextInputElem = <HTMLInputElement>document.getElementById("input" + (i + 1));
-    console.log(inputElem);
-    console.log(nextInputElem);
-    console.log("-----");
 
     if (!nextInputElem) {
       inputElem.value = "";
@@ -58,7 +55,7 @@ export class CreateLotComponent implements OnInit {
     }
 
     inputElem.files = nextInputElem.files;
-    inputElem.textContent = nextInputElem.textContent;
+
     this.replaceInputElem(i + 1);
   }
 
