@@ -16,8 +16,14 @@
     <input *ngIf="_lot.BuyerUserId" placeholder="{{_lot.Price}}" disabled>
     <br>
     <br> Currency:
-    <input *ngIf="!_lot.BuyerUserId" type="number" [(ngModel)]="_lot.Currency">
+    <select *ngIf="!_lot.BuyerUserId" [(ngModel)]="_lot.Currency">
+      <option>UAH</option>
+      <option>RUB</option>
+      <option>USD</option>
+      <option>EUR</option>
+    </select>
     <input *ngIf="_lot.BuyerUserId" placeholder="{{_lot.Currency}}" disabled>
+    <br>
     <br> Buyer:
     <label *ngIf="_lot.BuyerUser"> {{_lot.BuyerUser.Name}} {{_lot.BuyerUser.Surname}}</label>
     <label *ngIf="!_lot.BuyerUser"> None</label>
@@ -41,6 +47,10 @@
 
   <input type="button" (click)="deleteLot()" value="Delete this lot">
   <input type="button" (click)="updateLot()" value="Confirm changes">
+  <br>
+  <br> Maximum 9 MB of photos per request. You can add more photos by sending 2 or more requests. Maximum 10 photos per lot.
+  <br>
+  <br>
   <div *ngFor="let photo of _lot.LotPhotos">
     <img [src]="photo.Path">
     <br>Photo description: {{photo.Description}}

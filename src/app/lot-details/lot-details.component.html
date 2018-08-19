@@ -41,7 +41,7 @@
     <input type="button" (click)="confirmBid()" value="Confirm bid">
   </div>
   <h2>Comments</h2>
-  <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark">
+  <input [(ngModel)]="comment.Rating" type="number" placeholder="Mark" min="1" max="10">
   <br>
   <br>
   <input [(ngModel)]="comment.Message" type="text" placeholder="Message">

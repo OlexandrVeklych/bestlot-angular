@@ -46,7 +46,7 @@ export class LotEditorComponent implements OnInit {
 
   canChangeStartDate(): boolean {
     return !(this._lot.BuyerUserId
-      || this._lot.BidPlacer != "Relative"
+      || this._lot.BidPlacer == "Relative"
       || new Date().getTime() > new Date(this._lot.StartDate).getTime());
   }
 
@@ -57,9 +57,7 @@ export class LotEditorComponent implements OnInit {
       },
       response => {
         console.log(response)
-        if (response.error.status == 404)
-          alert(response.error);
-        else
+        if (response.error.status)
           alert(response.error.Message);
       });
   }

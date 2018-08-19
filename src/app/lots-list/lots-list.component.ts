@@ -52,9 +52,7 @@ export class LotsListComponent implements OnInit {
               },
               response => {
                 console.log(response)
-                if (response.error.status == 404)
-                  alert(response.error);
-                else
+                if (response.error.status)
                   alert(response.error.Message);
               });
           });

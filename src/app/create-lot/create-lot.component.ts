@@ -26,7 +26,7 @@ export class CreateLotComponent implements OnInit {
     StartDate: null,
     SellDate: null,
     Price: 0,
-    Currency: "",
+    Currency: "UAH",
     MinStep: 0,
     LotPhotos: [],
     BidPlacer: "Determined"

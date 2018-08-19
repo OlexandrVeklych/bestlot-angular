@@ -152,9 +152,7 @@ export class LotDetailsComponent implements OnInit {
       },
       response => {
         console.log(response)
-        if (response.error.status == 404)
-          alert(response.error);
-        else
+        if (response.error.status)
           alert(response.error.Message);
       });
   }
@@ -238,13 +236,14 @@ export class LotDetailsComponent implements OnInit {
             alert(response.error.Message)
         },
         () => {
+          alert("Success");
           this.comment = {
             Message: null,
             Rating: null,
           }
+          this.loadComments();
         }
       );
-      this.loadComments();
     }
   }
 }

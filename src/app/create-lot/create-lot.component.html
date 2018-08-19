@@ -11,7 +11,12 @@
 <input [(ngModel)]="lot.Price" placeholder="Start price" type="number">
 <br>
 <br>Currency:
-<input [(ngModel)]="lot.Currency" placeholder="Currency" type="text">
+<select [(ngModel)]="lot.Currency">
+  <option>UAH</option>
+  <option>RUB</option>
+  <option>USD</option>
+  <option>EUR</option>
+</select>
 <br>
 <br>Minimum bid step:
 <input [(ngModel)]="lot.MinStep" placeholder="Minimum bid step" type="number">
@@ -48,6 +53,8 @@
   <br>Seconds:
   <input type="number" [(ngModel)]="seconds">
 </div>
+<br>
+<br> Maximum 9 MB of photos per request. You can add more photos later in yout profile. Maximum 10 photos per lot.
 <br>
 <br>
 <div *ngFor="let item of getPhotosCount(); let i = index">
