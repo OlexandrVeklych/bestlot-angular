@@ -116,6 +116,10 @@ export class AppComponent implements OnInit {
     this.detailedSearch = false;
   }
   showCreateLot() {
+    if (!sessionStorage.getItem("tokenKey")){
+      alert("Please, login to be able to add lots")
+      return;
+    }
     this.allLots = false;
     this.oneLot = false;
     this.createLot = true;
@@ -149,6 +153,10 @@ export class AppComponent implements OnInit {
     this.detailedSearch = false;
   }
   showAllUsers() {
+    if (!sessionStorage.getItem("tokenKey")){
+      alert("Please, login to be able to view all users")
+      return;
+    }
     this.allLots = false;
     this.oneLot = false;
     this.createLot = false;

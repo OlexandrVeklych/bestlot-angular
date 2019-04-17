@@ -54,7 +54,7 @@ export class CreateLotComponent implements OnInit {
       return;
     }
 
-    inputElem.files = nextInputElem.files;
+    //inputElem.files = nextInputElem.files;
 
     this.replaceInputElem(i + 1);
   }

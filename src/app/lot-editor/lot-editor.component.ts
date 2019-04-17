@@ -81,7 +81,7 @@ export class LotEditorComponent implements OnInit {
       return;
     }
 
-    inputElem.files = nextInputElem.files;
+    //inputElem.files = nextInputElem.files;
 
     this.replaceInputElem(i + 1);
   }
